@@ -1,9 +1,12 @@
-const Post = require('../models/Post.models');
+const Post = require('../models/post.model');
 
 module.exports = {
 
     createPost: (req, res) => {
-        Post.create(req.body)
+        const postPic = req.file.filename
+        let ps = req.body
+        ps.postPicture = postPic
+        Post.create(ps)
             .then(newPost => {res.json(newPost)})
             .catch(err => {res.status(400).json(err)})
     },    
