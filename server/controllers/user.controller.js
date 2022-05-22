@@ -1,9 +1,12 @@
-const User = require('../models/user.models');
+const User = require('../models/user.model');
 
 module.exports = {
 
     createUser: (req, res) => {
-        User.create(req.body)
+        const profilePic = req.file.filename
+        let user = req.body
+        user.userProfilePic = profilePic
+        User.create(user)
             .then(newUser => {res.json(newUser)})
             .catch(err => {res.status(400).json(err)})
     },    

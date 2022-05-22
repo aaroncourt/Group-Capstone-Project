@@ -1,9 +1,11 @@
-const postController = require('../controllers/post.controllers');
+const postController = require('../controllers/post.controller');
+const upload = require('../config/multer.config')
+
 
 module.exports = (app) => {
-    app.get('/api/posts/all', postController.getAllUsers);
-    app.post('/api/posts/new', postController.createUser);
-    app.get('/api/posts/:id', postController.getOneUser);
-    app.put('/api/posts/:id/edit', postController.updateUser);
-    app.delete('/api/posts/:id', postController.deleteUser);
+    app.get('/api/posts/all', postController.getAllPosts);
+    app.post('/api/posts/new',upload.single('postPicture'), postController.createPost);
+    app.get('/api/posts/:id', postController.getOnePost);
+    app.put('/api/posts/:id/edit', postController.updatePost);
+    app.delete('/api/posts/:id', postController.deletePost);
 };

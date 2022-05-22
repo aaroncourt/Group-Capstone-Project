@@ -7,7 +7,6 @@ import Replies from "./components/Replies"
 function App() {
   return (
     <div className="App">
-
     </div>
   );
 }
