@@ -1,9 +1,9 @@
-const likeController = require('../controllers/like.controllers');
+const likeController = require('../controllers/like.controller');
 
 module.exports = (app) => {
-    app.get('/api/likes/all', likeController.getAllUsers);
-    app.post('/api/likes/new', likeController.createUser);
-    app.get('/api/likes/:id', likeController.getOneUser);
-    app.put('/api/likes/:id/edit', likeController.updateUser);
-    app.delete('/api/likes/:id', likeController.deleteUser);
+    app.get('/api/likes/all/:id', likeController.getAllLikesByPost);
+    app.post('/api/likes/new', likeController.createLike);
+    app.get('/api/likes/:id', likeController.getOneLike);
+    app.put('/api/likes/:id/edit', likeController.updateLike);
+    app.delete('/api/likes/:id', likeController.deleteLike);
 };

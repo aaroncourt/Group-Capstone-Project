@@ -8,9 +8,8 @@ module.exports = {
             .catch(err => {res.status(400).json(err)})
     },    
 
-    getAllLikes: (req, res) => {
-        console.log(req.body)
-        Like.find({})
+    getAllLikesByPost: (req, res) => {
+        Like.find({ likeOnPost: req.params.id})
             .then(allLikes => {
                 res.json(allLikes)
             })

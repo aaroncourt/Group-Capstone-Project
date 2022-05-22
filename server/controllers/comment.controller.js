@@ -8,9 +8,8 @@ module.exports = {
             .catch(err => {res.status(400).json(err)})
     },    
 
-    getAllComments: (req, res) => {
-        console.log(req.body)
-        Comment.find({})
+    getAllCommentsByPostId: (req, res) => {
+        Comment.find({ commentOnPost: req.params.id })
             .then(allComments => {
                 res.json(allComments)
             })
