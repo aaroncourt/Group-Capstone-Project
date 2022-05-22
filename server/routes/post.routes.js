@@ -8,4 +8,6 @@ module.exports = (app) => {
     app.get('/api/posts/:id', postController.getOnePost);
     app.put('/api/posts/:id/edit', postController.updatePost);
     app.delete('/api/posts/:id', postController.deletePost);
+    app.put('/api/post/addimage/:id',upload.single('postPicture'), postController.addImage);
+
 };
