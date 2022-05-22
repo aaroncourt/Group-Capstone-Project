@@ -8,9 +8,8 @@ module.exports = {
             .catch(err => {res.status(400).json(err)})
     },    
 
-    getAllPictures: (req, res) => {
-        console.log(req.body)
-        Picture.find({})
+    getAllPicturesByPostId: (req, res) => {
+        Picture.find({ pictureOnPost: req.params.id})
             .then(allPictures => {
                 res.json(allPictures)
             })
