@@ -1,9 +1,9 @@
-const pictureController = require('../controllers/picture.controllers');
+const pictureController = require('../controllers/picture.controller');
 
 module.exports = (app) => {
-    app.get('/api/pictures/all', pictureController.getAllUsers);
-    app.post('/api/pictures/new', pictureController.createUser);
-    app.get('/api/pictures/:id', pictureController.getOneUser);
-    app.put('/api/pictures/:id/edit', pictureController.updateUser);
-    app.delete('/api/pictures/:id', pictureController.deleteUser);
+    app.get('/api/pictures/all/:id', pictureController.getAllPicturesByPostId);
+    app.post('/api/pictures/new', pictureController.createPicture);
+    app.get('/api/pictures/:id', pictureController.getOnePicture);
+    app.put('/api/pictures/:id/edit', pictureController.updatePicture);
+    app.delete('/api/pictures/:id', pictureController.deletePicture);
 };
