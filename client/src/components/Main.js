@@ -3,11 +3,11 @@ import axios from 'axios';
 import {useParams, Link, useNavigate} from "react-router-dom";
 import "./style.css"
 
+
 const Main = (props) => {
     const[posts, setPosts] = useState([]);
     const {id} = useParams(); 
     const[user, setUser] = useState();
-    const[comments, setComments] = useState();
     const[pictures, setPictures] = useState();
     const[likes, setLikes] = useState();
     const navigate = useNavigate();
@@ -23,13 +23,15 @@ const Main = (props) => {
         })
     }, [])
 
-    //loop through records and add all ideaLikes
+
+
+
 
     return (
        <div>
         <div className="header d-flex align-items-center flex-column">
             <div className="header_ph d-flex justify-content-center align-items-center flex-column">
-                <h1 style="color:white">A Day...</h1>
+                <h1 style={{color: "white"}}>A Day...</h1>
             </div>
             <div className="nav border border-dark mt-5">
                 <div className="row d-flex mx-auto justify-content-between align-items-center">
@@ -66,7 +68,7 @@ const Main = (props) => {
                         <div className="col-4">
                             <p>Post by:</p>
                             <p>{post.by}</p>
-                            <textarea><span class="d-inline-block text-truncate" style="max-height: 4rem;">
+                            <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
                                 {post.body}
                             </span></textarea>
                         </div>
