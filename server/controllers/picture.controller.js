@@ -1,4 +1,5 @@
 const Picture = require('../models/picture.model');
+var fs = require('fs');
 
 module.exports = {
 
@@ -38,14 +39,34 @@ module.exports = {
             })
     },
 
-    deletePicture: (req, res) => {
-        Picture.deleteOne( {_id: req.params.id} )
-            .then(deleteConfirmation => {
-                res.json(deleteConfirmation)
-            })
-            .catch(err => {
-                res.json({message: 'Something went wrong: ', error: err})
-            });
+    deletePicture: async (req, res) => {
+        try{
+        const picName = await Picture.find({_id:req.params.id})
+        console.log(picName)
+        console.log(picName[0].pictureFileName.length)
+            console.log(picName[0].pictureFileName,"thisssssssssssss is my pic name")
+        // fs.unlink(`./../client/public/images/${picName[0].pictureFileName}`, function(err) {
+        //     if (err) throw err;
+        
+        //     console.log('file deleted');
+        // });
+
+        //     Picture.deleteOne( {_id: req.params.id} )
+        //     .then(deleteConfirmation => {
+        //         res.json(deleteConfirmation)
+        //     })
+        //     .catch(err => {
+        //         res.json({message: 'Something went wrong: ', error: err})
+        //     });
+
+    }   catch(err){
+        console.log(err)
+        res.json(err)
+    }
+
+        return null
+
+ 
     },
 
 };

@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Picture = require('../models/picture.model')
 const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
 
@@ -6,13 +7,29 @@ const jwt = require('jsonwebtoken')
 
 module.exports = {
 
-    createUser: (req, res) => {
-        const profilePic = req.file.filename
-        let user = req.body
-        user.userProfilePic = profilePic
-        User.create(user)
-            .then(newUser => {res.json(newUser)})
-            .catch(err => {res.status(400).json(err)})
+    createUser: async (req, res) => {
+        try{
+
+            const profilePic = req.file.filename
+            let user = req.body
+            user.userProfilePic = profilePic
+            const newuser = await User.create(user)
+            console.log(newuser)
+            res.json(newuser)
+            
+            const profileImageToDB = {
+                pictureFileName:req.file.filename,
+                pictureByUser:newuser._id,
+            }
+            const pushToPicsDB = await Picture.create(profileImageToDB)
+            console.log(pushToPicsDB)
+
+        }
+        catch(err){
+            console.log(err)
+            res.status(400).json(err)
+        }
+
     },
     loginUser:  (async (req,res) => {
         try{
@@ -84,6 +101,10 @@ module.exports = {
     },
 
     updateUser: (req, res) => {
+        const profilePic = req.file.filename
+        let user = req.body
+        user.userProfilePic = profilePic
+        console.log(user)
         User.findOneAndUpdate( {_id: req.params.id}, req.body, {runValidators: true, new: true})
             .then(updatedUser => {
                 res.json(updatedUser)

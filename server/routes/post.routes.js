@@ -10,5 +10,5 @@ module.exports = (app) => {
     app.put('/api/posts/:id/edit',authenticate,  postController.updatePost);
     app.delete('/api/posts/:id',authenticate,  postController.deletePost);
     app.put('/api/post/addimage/:id',authenticate, upload.single('postPicture'), postController.addImage);
-
+    app.delete('/api/post/deleteimage/:id',authenticate, postController.deleteImage);
 };

@@ -1,14 +1,35 @@
 const Post = require('../models/post.model');
+const Picture = require('../models/picture.model')
+var fs = require('fs');
+
 
 module.exports = {
 
-    createPost: (req, res) => {
+    createPost: async (req, res) => {
+        try{
         const postPic = req.file.filename
+        const postedBy = req.jwtpayload.id
         let ps = req.body
         ps.postPicture = postPic
-        Post.create(ps)
-            .then(newPost => {res.json(newPost)})
-            .catch(err => {res.status(400).json(err)})
+        ps.postedBy = postedBy
+        const newP = await Post.create(ps)
+        console.log(newP,'this is my P')
+
+
+        const profileImageToDB = {
+            pictureFileName:req.file.filename,
+            pictureByUser:req.jwtpayload.id,
+            pictureOnPost:newP._id.toString()
+        }
+        console.log(profileImageToDB ,' my pic object')
+        const pushToPicsDB = await Picture.create(profileImageToDB)
+        res.json(newP)
+
+    }
+        catch(err) {
+            res.json(err)
+        }
+
     },    
 
     getAllPosts: (req, res) => {
@@ -106,7 +127,7 @@ module.exports = {
 
     addImage: async (req,res) => {
         try{
-            const findImageArray = await Post.find({_id: req.params.id})
+            let findImageArray = await Post.find({_id: req.params.id})
             //we need to handle what if there is no image added and the api fired , maybe handle on the fronend 
             let images = findImageArray[0].postPicture
             const addPic = req.file.filename
@@ -120,11 +141,61 @@ module.exports = {
                 {new:true,runValidators:true})
                 res.json(findPost)
             console.log(findPost)
+
+            const profileImageToDB = {
+                pictureFileName:req.file.filename,
+                pictureByUser:req.jwtpayload.id,
+                pictureOnPost:req.params.id
+            }
+            console.log(profileImageToDB ,' my pic object')
+            const pushToPicsDB = await Picture.create(profileImageToDB)
         }
         catch(err){
             console.log(err)
+            console.log(err)
             res.status(400).json(err)
         }
+    },
+
+    deleteImage: async (req,res) => {
+        try{
+        const PostInfo = await Post.find({postPicture:req.params.id})
+        console.log(PostInfo,'All info')
+        console.log(PostInfo[0].postPicture.length,"Array")
+
+        if (PostInfo[0].postPicture.length < 2) {
+            res.json("Sorry you can't delete the image add one to be able to delete")
+        }
+
+        else {
+            fs.unlink(`./../client/public/images/${req.params.id}`, function(err) {
+            if (err) throw err;
+        
+            console.log('file deleted');
+        });
+
+            Picture.deleteOne( {pictureFileName:req.params.id} )
+            .then(deleteConfirmation => {
+                res.json(deleteConfirmation)
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(400).json(err)
+            });
+
+            // let imagesArray = PostInfo[0].postPicture
+            // console.log(imagesArray,'imagesArray')
+            // imagesArray = imagesArray.filter(function(item) {
+            //     return item !== req.params.id
+            // });
+            // console.log(imagesArray)
+            // PostInfo.postPicture = imagesArray
+            const updateImageList = await Post.updateOne({postPicture:req.params.id},{ $pullAll: {postPicture: [req.params.id] }})
+        }
+    }
+    catch(err) {
+        console.log(err)
+        return res.status(400).json(err)
     }
 
-};
+}};
