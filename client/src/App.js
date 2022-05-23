@@ -4,24 +4,23 @@ import Main from "./components/Main"
 import OnePost from "./components/OnePost"
 import UserPosts from "./components/UserPosts"
 import Replies from "./components/Replies"
+import NewPost from './components/AddPost';
 
 function App() {
   return (
     <div className="App">
-<<<<<<< Updated upstream
-=======
       <div className="container">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main/>} />
-            <Route path="/new" element={<OnePost/>} />
+            <Route path="/view" element={<OnePost/>} />
             <Route path="/reply/:id" element={<Replies/>} />
             <Route path="/user/:id" element={<UserPosts/>} />
+            <Route path="/add" element={<NewPost/>} />
           </Routes>
         </BrowserRouter>
       </div>
 
->>>>>>> Stashed changes
     </div>
   );
 }
