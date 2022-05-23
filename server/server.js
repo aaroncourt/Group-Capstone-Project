@@ -13,6 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 require('./config/mongoose.config');    
 require('./routes/user.routes')(app);
 require('./routes/post.routes')(app);
+require('./routes/comment.routes')(app);
+require('./routes/like.routes')(app);
+require('./routes/picture.routes')(app);
 
 
 
