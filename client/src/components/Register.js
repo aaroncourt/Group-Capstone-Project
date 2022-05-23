@@ -34,7 +34,7 @@ const Register = (props) => {
     const registering = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:8000/api/user/register",
+        axios.post("http://localhost:8000/api/users/new",
             user,
             { withCredentials: true })
             .then((res) => {
@@ -79,7 +79,7 @@ const Register = (props) => {
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Control
                             required
-                            type="username" placeholder="Last Name" type="text" name="userName" value={user.LastName}
+                            type="text" placeholder="Last Name" type="text" name="LastName" value={user.LastName}
                             onChange={changeHandler} />
                     </Form.Group>
 
@@ -90,15 +90,8 @@ const Register = (props) => {
                         />
 
                     </Form.Group>
-
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Control placeholder="Email" type="email" name="userEmail" value={user.userEmail}
-                            onChange={changeHandler}
-                        />
-
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Control placeholder="Email" type="text" name="userDOB" value={user.userDOB}
+                        <Form.Control placeholder="Date of birth" type="text" name="userDOB" value={user.userDOB}
                             onChange={changeHandler}
                         />
 
@@ -122,7 +115,7 @@ const Register = (props) => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Control as="textarea" rows="5" columns="8" placeholder="Enter your bio" value={user.userBio}
+                        <Form.Control as="textarea" rows="5" columns="8" placeholder="Enter your bio" name="userBio" value={user.userBio}
                             onChange={changeHandler}
                         />
 
