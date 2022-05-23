@@ -12,9 +12,7 @@ const NewPost = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log(petSkills)
-    addSkills();
-    axios.post("http://localhost:8000/api/comments/new", {postTitle:postTitle, postBody:postBody, postPicture:postPicture, postBy:postBy})
+    axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody, postPicture:postPicture, postBy:postBy})
       .then((res) => {
         console.log(res.data);
         navigate("/");
@@ -65,7 +63,7 @@ const NewPost = (props) => {
                 </div>
                 <div className="form-group">
                     <label>Photo:</label>
-                    <input type="file" className="form-control" name="postPhoto" accept="image/*"/>
+                    <input type="file" className="form-control" onChange={(e) => setPostPicture(e.target.value)} name="postPhoto" accept="image/*"/>
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div>

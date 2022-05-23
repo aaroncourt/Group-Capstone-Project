@@ -1,21 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
-import {Link, useNavigate} from "react-router-dom";
+import {useParams, Link, useNavigate} from "react-router-dom";
 import "./style.css"
 
 const Main = (props) => {
     const[posts, setPosts] = useState([]);
-    const[users, setUsers] = useState();
+    const {id} = useParams(); 
+    const[user, setUser] = useState();
     const[comments, setComments] = useState();
     const[pictures, setPictures] = useState();
     const[likes, setLikes] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/users/all')
+        axios.get(`http://localhost:8000/api/posts/all/${id}`)
         .then((res)=>{
             setPosts(res.data);
-            console.log(pets);
+            console.log(posts);
         })
         .catch((err)=>{
             console.log(err);
@@ -78,15 +79,14 @@ const Main = (props) => {
                         <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         <Link to={""}><button type="button" className="btn btn-primary">Like</button></Link>
                     </div>
-                    {/* {post.comments}?
-                    let comms = {post.comments}
-                    comms.map((comment, index)=>(
+                    {post.comments}?
+                    {post.comments.map((comment, index)=>(
                         <div key={index}>
                             <p>{comment.byuser}</p>
                             <textarea>{comment.body}</textarea>
                         </div>
-                        ))
-                        :null */}
+                        ))}
+                        :null
                 </div>
 
             ))

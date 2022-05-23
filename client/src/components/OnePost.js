@@ -12,7 +12,7 @@ const OnePost = (props) => {
         axios.get(`http://localhost:8000/api/pet/${id}`)
         .then(res => {
             console.log(res.data.toString());
-            setPet(res.data);
+            setPost(res.data);
         })
         .catch(err => console.error(err));
     }, []);
@@ -78,15 +78,14 @@ const OnePost = (props) => {
                         <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         <Link to={""}><button type="button" className="btn btn-primary">Like</button></Link>
                     </div>
-                    {/* {post.comments}?
-                    let comms = {post.comments}
-                    comms.map((comment, index)=>(
+                    {post.comments}?
+                    {post.comments.map((comment, index)=>(
                         <div key={index}>
                             <p>{comment.byuser}</p>
                             <textarea>{comment.body}</textarea>
                         </div>
-                        ))
-                        :null */}
+                        ))}
+                        :null
                 </div>
 
             
