@@ -1,4 +1,4 @@
-const Like = require('../models/Like.models');
+const Like = require('../models/like.model');
 
 module.exports = {
 
@@ -8,10 +8,19 @@ module.exports = {
             .catch(err => {res.status(400).json(err)})
     },    
 
-    getAllLikesByPost: (req, res) => {
+    getAllLikesByPostId: (req, res) => {
         Like.find({ likeOnPost: req.params.id})
             .then(allLikes => {
-                res.json(allLikes)
+                let totalLikes = 0
+                allLikes.forEach(like => {
+                    totalLikes++
+                })
+
+                data = {
+                    'allLikes': allLikes,
+                    'totalLikes': totalLikes
+                }
+                res.json(data)
             })
             .catch(err => {
                 res.json({message: 'Something went wrong: ', error: err})

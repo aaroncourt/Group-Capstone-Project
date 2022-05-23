@@ -12,8 +12,17 @@ module.exports = {
     },    
 
     getAllPosts: (req, res) => {
-        console.log(req.body)
         Post.find({})
+            .then(allPosts => {
+                res.json(allPosts)
+            })
+            .catch(err => {
+                res.json({message: 'Something went wrong: ', error: err})
+            });
+    },
+
+    getAllPostsByUserId: (req, res) => {
+        Post.find({postedBy : req.params.id} )
             .then(allPosts => {
                 res.json(allPosts)
             })

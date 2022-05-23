@@ -1,4 +1,4 @@
-const Comment = require('../models/Comment.models');
+const Comment = require('../models/Comment.model');
 
 module.exports = {
 
@@ -11,7 +11,16 @@ module.exports = {
     getAllCommentsByPostId: (req, res) => {
         Comment.find({ commentOnPost: req.params.id })
             .then(allComments => {
-                res.json(allComments)
+                let totalComments = 0
+                allComments.forEach(comment => {
+                    totalComments++
+                })
+
+                data = {
+                    'allLikes': allComments,
+                    'totalComments': totalComments
+                }
+                res.json(data)
             })
             .catch(err => {
                 res.json({message: 'Something went wrong: ', error: err})
