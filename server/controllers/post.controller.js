@@ -41,25 +41,69 @@ module.exports = {
             });
     },
 
-    updatePost: (req, res) => {
-        Post.findOneAndUpdate( {_id: req.params.id}, req.body, {runValidators: true, new: true})
-            .then(updatedPost => {
-                res.json(updatedPost)
-            })
-            .catch(err => {res.status(400).json(err)
-                console.log(err)
-            })
+// updatePost: (req, res) => {
+    //     Post.findOneAndUpdate( {_id: req.params.id}, req.body, {runValidators: true, new: true}
+    //         )
+    //         .then(updatedPost => {
+    //             res.json(updatedPost)
+    //         })
+    //         .catch(err => {res.status(400).json(err)
+    //             console.log(err)
+    //         })
+    // },
+    updatePost: async (req,res) => {
+        try{
+        const getCreaterId = await Post.find({_id: req.params.id})
+        const creatorId = getCreaterId[0].postedBy.toString()
+        if (req.jwtpayload.id != creatorId ){
+            console.log("You are not authorized to update this post")
+            return
+        }
+        else{
+            const postUpdate = await Post.findOneAndUpdate({_id: req.params.id}, req.body, {runValidators: true, new: true})
+            console.log(postUpdate)
+            res.json(postUpdate)
+        }
+    }
+    catch(err){
+        console.log("something went wrong updating the post")
+        res.status(400).json(err)
+    }
     },
 
-    deletePost: (req, res) => {
-        Post.deleteOne( {_id: req.params.id} )
-            .then(deleteConfirmation => {
-                res.json(deleteConfirmation)
-            })
-            .catch(err => {
-                res.json({message: 'Something went wrong: ', error: err})
-            });
+    // deletePost: (req, res) => {
+    //     Post.deleteOne( {_id: req.params.id} )
+    //         .then(deleteConfirmation => {
+    //             res.json(deleteConfirmation)
+    //         })
+    //         .catch(err => {
+    //             res.json({message: 'Something went wrong: ', error: err})
+    //         });
+    // },
+
+    //still needs work 
+    deletePost: async (req,res) => {
+        try{
+        const getCreaterId = await Post.find({_id: req.params.id})
+        const creatorId = getCreaterId[0].postedBy.toString()
+        console.log(req.jwtpayload.id,creatorId)
+        if (req.jwtpayload.id != creatorId ){
+            console.log("You are not authorized to delete this post")
+            return
+        }
+        else{
+            console.log('inside the delete ')
+            const postDelete = await Post.deleteOne({_id: req.params.id})
+            console.log(postDelete)
+            return res.json(postDelete)
+        }
+    }
+    catch(err){
+        console.log("something went wrong deleting your post")
+        res.status(400).json(err)
+    }
     },
+
     addImage: async (req,res) => {
         try{
             const findImageArray = await Post.find({_id: req.params.id})
