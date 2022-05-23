@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 
 
@@ -8,14 +8,29 @@ const Replies = (props) => {
     const { user, setUser } = props;
     const { id } = useParams();
     const { socket } = props;
-    const { replyList, setReplyList } = props;
-    const {content, setContent} = props;
+    const { comments, setComments } = props;
+    const { content, setContent } = props;
+
+    useEffect(() => {
+        axios.get(`http://localhost:8000/api/comments/all/${id}`,
+            { withCredentials: true }
+        )
+            .then((res) => {
+                console.log(res.data);
+            })
+
+            .catch((err) => {
+                console.log(err);
+            })
+    }, [])
+
+
 
 
     useEffect(() => {
         socket.on("Update_chat_likes", (data) => {
             console.log("our socket updated list", data)
-            setReplyList(data)
+            setComments(data)
 
         })
     }, [])
@@ -23,7 +38,7 @@ const Replies = (props) => {
 
     //from course code
     const likeReply = (replyFromBelow) => {
-        axios.put(`http://localhost:8000/api/replies/${replyFromBelow._id}`,
+        axios.put(`http://localhost:8000/api/comments/all/${replyFromBelow._id}`,
             {
                 likes: replyFromBelow.likes + 1
             }
@@ -31,28 +46,28 @@ const Replies = (props) => {
             .then((res) => {
                 console.log(res.data);
                 setUser(res.data);
-                let updatedReplyList = replyList.map((reply, index) => {
+                let updatedCommentsList = comments.map((reply, index) => {
                     if (reply === replyFromBelow) {
-                        let replyHolder = { ...res.data };
-                        return replyHolder;
+                        let commentHolder = { ...res.data };
+                        return commentHolder;
                     }
                     return reply;
                 });
 
 
-                socket.emit("Update_chat", updatedReplyList)
+                socket.emit("Update_chat", updatedCommentsList)
             })
     }
 
     const addAReply = () => {
-        axios.post(`http://localhost:8000/api/replies/${id}`,
+        axios.post(`http://localhost:8000/api/comments/new`,
             {
                 content, 
                 reply: id
             })
             .then((res) => {
                 console.log(res.data);
-                setReplyList([res.data, ...replyList])
+                setComments([res.data, ...comments])
             })
             .catch((err) => {
                 console.log(err);
@@ -65,8 +80,8 @@ const Replies = (props) => {
 
             <button onClick={addAReply}>Add reply</button>
             {
-                replyList ?
-                    replyList.map((reply, index) => (
+                comments ?
+                    comments.map((reply, index) => (
                         <div key={index}>
                             <p>{reply.content}</p>
                             <button onClick={() => likeReply(reply)}>Like {reply.likes}</button>
