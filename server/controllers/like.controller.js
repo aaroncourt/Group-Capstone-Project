@@ -7,7 +7,7 @@ module.exports = {
             .then(newLike => {res.json(newLike)})
             .catch(err => {res.status(400).json(err)})
     },    
-
+  
     getAllLikesByPostId: (req, res) => {
         Like.find({ likeOnPost: req.params.id})
             .then(allLikes => {

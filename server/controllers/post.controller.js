@@ -60,5 +60,27 @@ module.exports = {
                 res.json({message: 'Something went wrong: ', error: err})
             });
     },
+    addImage: async (req,res) => {
+        try{
+            const findImageArray = await Post.find({_id: req.params.id})
+            //we need to handle what if there is no image added and the api fired , maybe handle on the fronend 
+            let images = findImageArray[0].postPicture
+            const addPic = req.file.filename
+            let ps = req.body
+            ps.postPicture = [...images,addPic]
+            console.log('current',images)
+            
+            const findPost = await Post.findOneAndUpdate(
+                {_id: req.params.id}, 
+                ps, 
+                {new:true,runValidators:true})
+                res.json(findPost)
+            console.log(findPost)
+        }
+        catch(err){
+            console.log(err)
+            res.status(400).json(err)
+        }
+    }
 
 };
