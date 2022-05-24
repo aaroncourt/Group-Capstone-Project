@@ -41,7 +41,7 @@ function App() {
             setSocket={setSocket}
             user={user}
             setUser={setUser}/>
-            <Route path="/view" element={<OnePost/>}
+            <Route path="/view/:id" element={<OnePost/>}
             socket={socket}
             setSocket={setSocket}
             user={user}

@@ -9,19 +9,19 @@ const OnePost = (props) => {
     console.log(id);
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/pet/${id}`)
+        axios.get(`http://localhost:8000/api/posts/${id}`, {withCredentials: true})
         .then(res => {
-            console.log(res.data.toString());
+            console.log(res.data);
             setPost(res.data);
         })
         .catch(err => console.error(err));
     }, []);
 
     const deleteHandler = (id)=>{
-        axios.delete(`http://localhost:8000/api/pet/${id}`)
+        axios.delete(`http://localhost:8000/api/posts/${id}`, {withCredentials: true})
             .then((res)=>{
                 console.log(res.data);
-                nav("/")
+                nav("/home")
             })
             .catch((err)=>{
                 console.log(err);
@@ -34,7 +34,7 @@ const OnePost = (props) => {
        <div>
         <div className="header d-flex align-items-center flex-column">
             <div className="header_ph d-flex justify-content-center align-items-center flex-column">
-                <h1 style="color:white">A Day...</h1>
+                <h1>A Day...</h1>
             </div>
             <div className="nav border border-dark mt-5">
                 <div className="row d-flex mx-auto justify-content-between align-items-center">
@@ -55,37 +55,39 @@ const OnePost = (props) => {
         </div>
         <div className="mt-5">
                     <div>
-                        <h3>{post.title}</h3>
+                        <h3>{post.postTitle}</h3>
                     </div>
-                    <div className="row d-flex mx-auto">
-                        <div className="col-2">
+                    <div className="row d-flex mx-auto justify-content-center">
+                        {/* <div className="col-2">
                             <img src="{post.user.pic}"></img>
                             <img src="{post.likes}"></img>
-                        </div>
+                        </div> */}
                         <div className="col-4">
-                            <p>Post by:</p>
-                            <p>{post.by}</p>
-                            <textarea><span class="d-inline-block text-truncate" style="max-height: 4rem;">
-                                {post.body}
-                            </span></textarea>
+                            {/* <p>Post by:</p>
+                            <p>{post.by}</p> */}
+                            {/* <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
+                                {post.postBody}
+                            </span></textarea> */}
+                            <textarea value={post.postBody}>
+                                {/* {post.postBody} */}
+                            </textarea>
                         </div>
-                        
-                        <div className="col-6">
+                        {/* <div className="col-6">
                             <img src="{post.picture}"></img>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="mt-3 d-flex justify-content-between flex-column">
                         <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
-                        <Link to={""}><button type="button" className="btn btn-primary">Like</button></Link>
+                        <button className='btn btn-danger my-3' onClick={(e)=>deleteHandler(post._id)}>Delete</button>
                     </div>
-                    {post.comments}?
+                    {/* {post.comments}?
                     {post.comments.map((comment, index)=>(
                         <div key={index}>
                             <p>{comment.byuser}</p>
                             <textarea>{comment.body}</textarea>
                         </div>
                         ))}
-                        :null
+                        :null */}
                 </div>
 
             
