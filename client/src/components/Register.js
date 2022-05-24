@@ -18,7 +18,6 @@ const Register = (props) => {
         userState: "",
         userBio: "",
         userHobbies: "",
-        userProfilePic: "",
         password: "",
         confirmPassword:""
     })
@@ -49,7 +48,6 @@ const Register = (props) => {
                     userState: "",
                     userBio: "",
                     userHobbies: "",
-                    userProfilePic: "",
                     password: "",
                     confirmPassword:""
                 })
@@ -137,20 +135,14 @@ const Register = (props) => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Control placeholder="Profile pic" type="text" name="userProfilePic" value={user.userProfilePic}
-                            onChange={changeHandler}
-                        />
 
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-
-                        <Form.Control type="text" placeholder="Enter password" name="userPassword" value={user.userPassword}
+                        <Form.Control type="text" placeholder="Enter password" name="password" value={user.password}
                             onChange={changeHandler}
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
 
-                        <Form.Control type="text" name="confirmUserPassword" placeholder="Confirm password" value={user.confirmUserPassword}
+                        <Form.Control type="text" name="confirmPassword" placeholder="confirm Password" value={user.confirmPassword}
                             onChange={changeHandler}
                         />
                     </Form.Group>
