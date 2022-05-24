@@ -59,7 +59,7 @@ const Register = (props) => {
             .catch((err) => {
                 console.log(err)
                 setErrors(err.response.data.errors)
-                alert("password must be at least 8 characters and passwords must match")
+                alert("In order to register, please complete all fields. Passwords must be at least 8 characters in length and match each other.")
             })
     }
 
@@ -73,13 +73,19 @@ const Register = (props) => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Control
                             required
-                            type="username" placeholder="First name" type="text" name="firstName" value={user.firstName}
+                            placeholder="Username" type="text" name="username" value={user.username}
+                            onChange={changeHandler} />
+                    </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Control
+                            required
+                            placeholder="First name" type="text" name="firstName" value={user.firstName}
                             onChange={changeHandler} />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Control
                             required
-                            type="text" placeholder="Last Name" type="text" name="LastName" value={user.LastName}
+                            type="text" placeholder="Last Name" name="LastName" value={user.LastName}
                             onChange={changeHandler} />
                     </Form.Group>
 
