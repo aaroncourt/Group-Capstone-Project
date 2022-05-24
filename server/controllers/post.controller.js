@@ -7,22 +7,22 @@ module.exports = {
 
     createPost: async (req, res) => {
         try{
-        const postPic = req.file.filename
+        // const postPic = req.file.filename
         const postedBy = req.jwtpayload.id
         let ps = req.body
-        ps.postPicture = postPic
+        // ps.postPicture = postPic
         ps.postedBy = postedBy
         const newP = await Post.create(ps)
         console.log(newP,'this is my P')
 
 
-        const profileImageToDB = {
-            pictureFileName:req.file.filename,
-            pictureByUser:req.jwtpayload.id,
-            pictureOnPost:newP._id.toString()
-        }
-        console.log(profileImageToDB ,' my pic object')
-        const pushToPicsDB = await Picture.create(profileImageToDB)
+        // const profileImageToDB = {
+        //     pictureFileName:req.file.filename,
+        //     pictureByUser:req.jwtpayload.id,
+        //     pictureOnPost:newP._id.toString()
+        // }
+        // console.log(profileImageToDB ,' my pic object')
+        // const pushToPicsDB = await Picture.create(profileImageToDB)
         res.json(newP)
 
     }

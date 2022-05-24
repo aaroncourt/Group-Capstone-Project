@@ -12,10 +12,12 @@ const NewPost = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody, postPicture:postPicture, postBy:postBy})
+    // axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody, postPicture:postPicture, postedBy:postBy})
+    axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody}, {withCredentials: true})
       .then((res) => {
+        console.log("res info is: ")
         console.log(res.data);
-        navigate("/");
+        navigate("/home");
       })
       .catch((err) => {
         console.log(`err is: ${err}`);
@@ -27,7 +29,7 @@ const NewPost = (props) => {
     <div>
         <div className="header d-flex align-items-center flex-column">
             <div className="header_ph d-flex justify-content-center align-items-center flex-column">
-                <h1 style="color:white">A Day...</h1>
+                <h1>A Day...</h1>
             </div>
             <div className="nav border border-dark mt-5">
                 <div className="row d-flex mx-auto justify-content-between align-items-center">
@@ -61,12 +63,12 @@ const NewPost = (props) => {
                     <br></br>
                     {errors.type ? <span className="text-danger">{errors.type.message}</span> : null}
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                     <label>Photo:</label>
                     <input type="file" className="form-control" onChange={(e) => setPostPicture(e.target.value)} name="postPhoto" accept="image/*"/>
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
-                </div>
+                </div> */}
             </div>
         </div>
         <div className="m-5 text-start">
