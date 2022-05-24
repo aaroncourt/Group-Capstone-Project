@@ -130,8 +130,6 @@ const Register = (props) => {
                         <Form.Control placeholder="Hobbies" type="text" name="userHobbies" value={user.userHobbies}
                             onChange={changeHandler}
                         />
-
-
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">

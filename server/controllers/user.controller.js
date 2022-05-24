@@ -4,26 +4,16 @@ const bcrypt = require("bcrypt")
 const jwt = require('jsonwebtoken')
 
 
-
 module.exports = {
 
     createUser: async (req, res) => {
         try{
 
-            const profilePic = req.file.filename
             let user = req.body
-            user.userProfilePic = profilePic
             const newuser = await User.create(user)
             console.log(newuser)
             res.json(newuser)
             
-            const profileImageToDB = {
-                pictureFileName:req.file.filename,
-                pictureByUser:newuser._id,
-            }
-            const pushToPicsDB = await Picture.create(profileImageToDB)
-            console.log(pushToPicsDB)
-
         }
         catch(err){
             console.log(err)
@@ -32,44 +22,48 @@ module.exports = {
 
     },
     loginUser:  (async (req,res) => {
+        console.log(req.body.password)
         try{
             const findUser = await User.findOne({username: req.body.username})
             console.log(findUser)
+            console.log(await bcrypt.hash(req.body.password, 10))
+            console.log(await bcrypt.hash('password', 10))
             if(findUser === null){
                 console.log('invalid login attempt','this is from first check if null')
                 res.status(400).json({message:"invalid login attempt"})
             }else {
-                bcrypt.compare(req.body.password,findUser.password)
-                    .then((isPasswordValid) => {
-                        if(isPasswordValid){
-                            console.log("password is valid")
-                            res.cookie('usertoken',
-                                jwt.sign({
-                                    id: findUser._id,
-                                    username:findUser.username
-                                },process.env.JWT_SECRET),
-                                {
-                                    httpOnly:true,
-                                    expires: new Date(Date.now()+ 9000000)
-                                }
-                            ).json({
-                                message:"Succesfully",
-                                userLoggedIn: findUser.username,
-                                userId: findUser._id
-                            })
+                if(findUser.password == req.body.password) {
+                    console.log("password is valid")
+                    res.cookie('usertoken',
+                        jwt.sign({
+                            id: findUser._id,
+                            username:findUser.username
+                        },process.env.JWT_SECRET),
+                        {
+                            httpOnly:true,
+                            expires: new Date(Date.now()+ 9000000)
                         }
-                        else {
-                            console.log('invalid login attempt, username or password')
-                            res.status(400).json({message:"invalid Attempt"})
-                        }
+                    ).json({
+                        message:"Succesfully",
+                        userLoggedIn: findUser.username,
+                        userId: findUser._id
                     })
+                }
+                else {
+                    console.log('invalid login attempt, username or password')
+                    res.status(400).json({message:"invalid Attempt"})
+                }
             }
+
+                        
+                    
+        }
             
-    }
-    catch(err){
-        console.log(err)
-        return res.status(400).json({message:'Something went wrong with login process',error:err})
-    }
+    
+        catch(err){
+            console.log(err)
+            return res.status(400).json({message:'Something went wrong with login process',error:err})
+        }
     }),
     logout:(async(req,res) => {
         console.log("loging out")
