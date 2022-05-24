@@ -14,7 +14,7 @@ const PictureSchema = new mongoose.Schema({
     },
     pictureOnPost: {
         type: mongoose.Schema.Types.ObjectId,
-        required:true,
+        // required:true,
         ref: 'Post'
     },
 },{timestamps:true});
