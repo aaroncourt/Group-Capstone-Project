@@ -61,7 +61,7 @@ const Register = (props) => {
                 setErrors(err.response.data.errors)
                 alert("In order to register, please complete all fields. Passwords must be at least 8 characters in length and match each other.")
             })
-        }
+    }
 
 
     return (
