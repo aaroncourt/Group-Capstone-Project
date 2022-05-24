@@ -45,11 +45,6 @@ const UserSchema = new mongoose.Schema ({
         type: String,
         required:[true,"User NHobbies are requierd"]
     },
-    userProfilePic: {
-        type: String,
-        required:[true,'Please Add A Profile Picture']
-        
-    },
     
     password: {
         type: String,
@@ -69,12 +64,6 @@ UserSchema.pre('validate', function(next) {
     next();
     });
     
-UserSchema.pre('save', function(next) {
-    bcrypt.hash(this.password, 10)
-        .then(hash => {
-            this.password = hash;
-            next();
-        });
-    });
+
     UserSchema.plugin(uniqueValidator,{message: 'This Field need to be unique'});
     module.exports = mongoose.model('User',UserSchema)
