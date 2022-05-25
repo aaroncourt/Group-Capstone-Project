@@ -31,11 +31,3 @@ const io = socket(server, {
     }
 })
 
-io.on("connection", (socket) => {
-    console.log("socket.id " + socket.id);
-
-    socket.on("Update_chat", (data) => {
-        console.log("The payload: ", data);
-        io.emit("Update_chat_likes", data);
-    })
-})
