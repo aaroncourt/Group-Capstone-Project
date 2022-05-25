@@ -7,7 +7,6 @@ import axios from 'axios'
 const Replies = (props) => {
     const { user, setUser } = props;
     const { id } = useParams();
-    const { socket } = props;
     const { comments, setComments } = props;
     const { content, setContent } = props;
 
@@ -17,6 +16,7 @@ const Replies = (props) => {
         )
             .then((res) => {
                 console.log(res.data);
+                // setComments(res.data)
             })
 
             .catch((err) => {
@@ -25,49 +25,16 @@ const Replies = (props) => {
     }, [])
 
 
-
-
-    useEffect(() => {
-        socket.on("Update_chat_likes", (data) => {
-            console.log("our socket updated list", data)
-            setComments(data)
-
-        })
-    }, [])
-
-
-    //from course code
-    const likeReply = (replyFromBelow) => {
-        axios.put(`http://localhost:8000/api/comments/all/${replyFromBelow._id}`,
-            {
-                likes: replyFromBelow.likes + 1
-            }
-        )
-            .then((res) => {
-                console.log(res.data);
-                setUser(res.data);
-                let updatedCommentsList = comments.map((reply, index) => {
-                    if (reply === replyFromBelow) {
-                        let commentHolder = { ...res.data };
-                        return commentHolder;
-                    }
-                    return reply;
-                });
-
-
-                socket.emit("Update_chat", updatedCommentsList)
-            })
-    }
-
     const addAReply = () => {
         axios.post(`http://localhost:8000/api/comments/new`,
             {
                 content, 
-                reply: id
+                commentByUser: id
             })
             .then((res) => {
                 console.log(res.data);
-                setComments([res.data, ...comments])
+                setComments(res.data)
+                setContent(res.data)
             })
             .catch((err) => {
                 console.log(err);
@@ -84,7 +51,7 @@ const Replies = (props) => {
                     comments.map((reply, index) => (
                         <div key={index}>
                             <p>{reply.content}</p>
-                            <button onClick={() => likeReply(reply)}>Like {reply.likes}</button>
+                            {/* <button onClick={() => likeReply(reply)}>Like</button> */}
                         </div>
                     ))
                     : null

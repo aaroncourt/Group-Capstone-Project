@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import {useParams, Link, useNavigate} from "react-router-dom";
 import "./style.css"
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button';
+import Replies from "../components/Replies"
 
 
 const Main = (props) => {
     const[posts, setPosts] = useState([]);
-    // const {id} = useParams(); 
+    const {id} = useParams(); 
     const[user, setUser] = useState({});
     const[pictures, setPictures] = useState();
     const[likes, setLikes] = useState();
@@ -95,22 +98,26 @@ const Main = (props) => {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
                             <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
+                            <Replies/>
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                         :
                         <div className="mt-3 d-flex justify-content-between flex-column">
                             <Link to={""}><button type="button" className="btn btn-primary">Like</button></Link>
+                            
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
+                        
                     }
+                    
                     {/* {post.comments}?
                     {post.comments.map((comment, index)=>(
                         <div key={index}>
                             <p>{comment.byuser}</p>
                             <textarea>{comment.body}</textarea>
                         </div>
-                        ))} */}
-                        {/* :null */}
+                        ))} 
+                        :null */}
                 </div>
 
             ))
