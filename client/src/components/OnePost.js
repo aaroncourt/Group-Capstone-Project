@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import {useParams, Link, useNavigate} from "react-router-dom";
+import Header from './Header'
 
 const OnePost = (props) => {
     const [post, setPost] = useState({})
@@ -32,27 +33,7 @@ const OnePost = (props) => {
 
     return (
        <div>
-        <div className="header d-flex align-items-center flex-column">
-            <div className="header_ph d-flex justify-content-center align-items-center flex-column">
-                <h1>A Day...</h1>
-            </div>
-            <div className="nav border border-dark mt-5">
-                <div className="row d-flex mx-auto justify-content-between align-items-center">
-                    <div className="col-3">
-                        <Link to={""} className="clean_link"><h5>Home</h5></Link>
-                    </div>
-                    <div className="col-3">
-                        <Link to={""} className="clean_link"><h5>Edit</h5></Link>
-                    </div>
-                    <div className="col-3">
-                        <Link to={""} className="clean_link"><h5>View</h5></Link>
-                    </div>
-                    <div className="col-3">
-                        <Link to={""} className="clean_link"><h5>Help</h5></Link>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Header/>
         <div className="mt-5">
                     <div>
                         <h3>{post.postTitle}</h3>
