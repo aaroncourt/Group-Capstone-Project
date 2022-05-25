@@ -21,8 +21,8 @@ module.exports = {
         //     pictureByUser:req.jwtpayload.id,
         //     pictureOnPost:newP._id.toString()
         // }
-        // console.log(profileImageToDB ,' my pic object')
-        // const pushToPicsDB = await Picture.create(profileImageToDB)
+        console.log(profileImageToDB ,' my pic object')
+        const pushToPicsDB = await Picture.create(profileImageToDB)
         res.json(newP)
 
     }
