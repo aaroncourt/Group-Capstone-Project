@@ -6,6 +6,7 @@ import UserPosts from "./components/UserPosts"
 import Replies from "./components/Replies"
 import NewPost from './components/AddPost';
 import LoginReg from "./views/LoginReg"
+import EditPost from './components/Edit'
 import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -25,9 +26,12 @@ function App() {
             setUser={setUser}/>
             <Route path="/home" element={<Main/>} 
             user={user}
-            setUser={setUser}
-            comments={comments}
-            setComments={setComments}/>
+            setUser={setUser}/>
+            <Route path="/edit/:id" element={<EditPost/>}
+            socket={socket}
+            setSocket={setSocket}
+            user={user}
+            setUser={setUser}/>
             <Route path="/view/:id" element={<OnePost/>}
             user={user}
             setUser={setUser}/>

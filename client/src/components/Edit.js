@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header"
 
-const NewPost = (props) => {
+const EditPost = (props) => {
   const [errors, setErrors] = useState({});
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
@@ -11,10 +11,26 @@ const NewPost = (props) => {
   const [postBy, setPostBy] = useState("");
   const navigate = useNavigate();
 
+  const [post, setPost] = useState({})
+  const {id} = useParams(); 
+  console.log(id);
+
+  useEffect(() => {
+      axios.get(`http://localhost:8000/api/posts/${id}`, {withCredentials: true})
+      .then(res => {
+          console.log(res.data.postTitle);
+          setPostTitle(res.data.postTitle);
+          setPostBody(res.data.postBody);
+          setPost(res.data);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
+
   const submitHandler = (e) => {
     e.preventDefault();
     // axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody, postPicture:postPicture, postedBy:postBy})
-    axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody}, {withCredentials: true})
+    axios.put(`http://localhost:8000/api/posts/${id}/edit`, {postTitle:postTitle, postBody:postBody}, {withCredentials: true})
       .then((res) => {
         console.log("res info is: ")
         console.log(res.data);
@@ -25,6 +41,17 @@ const NewPost = (props) => {
         setErrors(err.response.data.errors);
       });
   };
+
+  const deleteHandler = (id)=>{
+    axios.delete(`http://localhost:8000/api/posts/${id}`, {withCredentials: true})
+        .then((res)=>{
+            console.log(res.data);
+            navigate("/home")
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
 
   return (
     <div>
@@ -53,11 +80,12 @@ const NewPost = (props) => {
             </div>
         </div>
         <div className="m-5 text-start">
-            <button className="btn btn-primary ms-3">Add Your Day</button>
-        </div>
+            <button className="btn btn-primary ms-3">Update Your Day</button>
+       </div>
       </form>
+            <button className='btn btn-danger my-3' onClick={(e)=>deleteHandler(post._id)}>Delete</button>
     </div>
   );
 };
 
-export default NewPost;
+export default EditPost;
