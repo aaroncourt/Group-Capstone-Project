@@ -18,16 +18,6 @@ const OnePost = (props) => {
         .catch(err => console.error(err));
     }, []);
 
-    const deleteHandler = (id)=>{
-        axios.delete(`http://localhost:8000/api/posts/${id}`, {withCredentials: true})
-            .then((res)=>{
-                console.log(res.data);
-                nav("/home")
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
-    }
  
     //loop through records and add all ideaLikes
 
@@ -49,9 +39,7 @@ const OnePost = (props) => {
                             {/* <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
                                 {post.postBody}
                             </span></textarea> */}
-                            <textarea value={post.postBody}>
-                                {/* {post.postBody} */}
-                            </textarea>
+                            <p>{post.postBody}</p>
                         </div>
                         {/* <div className="col-6">
                             <img src="{post.picture}"></img>
@@ -59,7 +47,6 @@ const OnePost = (props) => {
                     </div>
                     <div className="mt-3 d-flex justify-content-between flex-column">
                         <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
-                        <button className='btn btn-danger my-3' onClick={(e)=>deleteHandler(post._id)}>Delete</button>
                     </div>
                     {/* {post.comments}?
                     {post.comments.map((comment, index)=>(
