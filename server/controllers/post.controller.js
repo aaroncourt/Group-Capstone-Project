@@ -125,30 +125,45 @@ module.exports = {
     }
     },
 
-    addImage: async (req,res) => {
+addImage: async (req,res) => {
         try{
             let findImageArray = await Post.find({_id: req.params.id})
-            //we need to handle what if there is no image added and the api fired , maybe handle on the fronend 
-            let images = findImageArray[0].postPicture
+
             const addPic = req.file.filename
             let ps = req.body
-            ps.postPicture = [...images,addPic]
-            console.log('current',images)
-            
-            const findPost = await Post.findOneAndUpdate(
-                {_id: req.params.id}, 
-                ps, 
-                {new:true,runValidators:true})
-                res.json(findPost)
-            console.log(findPost)
+            //we need to handle what if there is no image added and the api fired , maybe handle on the fronend 
+            if ( findImageArray[0].postPicture == undefined) {
+                ps.postPicture = addPic
+                console.log(ps,'this is to check the the data')
+                
+                const findPost = await Post.findOneAndUpdate(
+                    {_id: req.params.id}, 
+                    ps, 
+                    {new:true,runValidators:true})
+                    res.json(findPost)
+                console.log(findPost)
+    
 
-            const profileImageToDB = {
-                pictureFileName:req.file.filename,
-                pictureByUser:req.jwtpayload.id,
-                pictureOnPost:req.params.id
-            }
-            console.log(profileImageToDB ,' my pic object')
-            const pushToPicsDB = await Picture.create(profileImageToDB)
+            } else {
+                console.log('printing images')
+                ps.postPicture = addPic
+                console.log(ps)
+
+                const findPost = await Post.findOneAndUpdate(
+                    {_id: req.params.id}, 
+                    ps, 
+                    {new:true,runValidators:true})
+                    res.json(findPost)
+                console.log(findPost)
+        }
+
+            // const profileImageToDB = {
+            //     pictureFileName:req.file.filename,
+            //     pictureByUser:req.jwtpayload.id,
+            //     pictureOnPost:req.params.id
+            // }
+            // console.log(profileImageToDB ,' my pic object')
+            // const pushToPicsDB = await Picture.create(profileImageToDB)
         }
         catch(err){
             console.log(err)
@@ -163,11 +178,11 @@ module.exports = {
         console.log(PostInfo,'All info')
         console.log(PostInfo[0].postPicture.length,"Array")
 
-        if (PostInfo[0].postPicture.length < 2) {
-            res.json("Sorry you can't delete the image add one to be able to delete")
-        }
+        // if (PostInfo[0].postPicture.length < 2) {
+        //     res.json("Sorry you can't delete the image add one to be able to delete")
+        // }
 
-        else {
+        // else {
             fs.unlink(`./../client/public/images/${req.params.id}`, function(err) {
             if (err) throw err;
         
@@ -191,7 +206,7 @@ module.exports = {
             // console.log(imagesArray)
             // PostInfo.postPicture = imagesArray
             const updateImageList = await Post.updateOne({postPicture:req.params.id},{ $pullAll: {postPicture: [req.params.id] }})
-        }
+        // }
     }
     catch(err) {
         console.log(err)
