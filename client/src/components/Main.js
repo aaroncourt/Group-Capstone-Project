@@ -87,12 +87,12 @@ const Main = (props) => {
                     {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
-                            <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
+                            <Link to={`/edit/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                         :
                         <div className="mt-3 d-flex justify-content-between flex-column">
-                            <Link to={""}><button type="button" className="btn btn-primary">Like</button></Link>
+                            <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">View</button></Link>
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                     }
