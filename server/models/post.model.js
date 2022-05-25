@@ -9,19 +9,18 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required:[true,'Please Provide post details '],
     },
-    // postPicture: {
-    //     type: [String],
-    //     default: undefined ,
-    //     required: [true,'please add at least one picture'],
-    //     minItems: {
-    //         value: 1,
-    //         message: props => `Please upload at least one picture`
-    //     },
-    //     maxItems: {
-    //         value: 4,
-    //         message: props => `maxsimum number of pictures is 4`
-    //     },
-    //     },
+    postPicture: {
+        type: [String],
+        default: undefined ,
+        minItems: {
+            value: 0,
+            message: props => `Please upload at least one picture`
+        },
+        maxItems: {
+            value: 1,
+            message: props => `maxsimum number of pictures is 4`
+        },
+        },
     postedBy: {
         type: mongoose.Schema.Types.ObjectId,
         required:true,

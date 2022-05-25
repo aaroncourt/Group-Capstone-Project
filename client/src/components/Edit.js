@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header"
+import ImageUp from "./ImageUpLoader";
 
 const EditPost = (props) => {
   const [errors, setErrors] = useState({});
@@ -84,6 +85,7 @@ const EditPost = (props) => {
        </div>
       </form>
             <button className='btn btn-danger my-3' onClick={(e)=>deleteHandler(post._id)}>Delete</button>
+            <ImageUp id ={id} postBody = {postBody} postTitle={postTitle} />
     </div>
   );
 };
