@@ -66,7 +66,9 @@ function deleteHandler (imageName) {
 
 
     return (
+
     <div className="mainContainer">
+
         <Header/>
         <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
         <Link to={"/add"} className="clean_link your_day"><button type="button" className="btn btn-success your_day">Tell Us About Your Day</button></Link>
@@ -135,6 +137,7 @@ function deleteHandler (imageName) {
             ))
             :null
         }
+       </div>
        </div>
     )
 }

@@ -18,7 +18,10 @@ const NewPost = (props) => {
     }
 )
 
-console.log(postTitle,postBody)
+
+// if (postPicture === ""){
+//         setPostPicture('placeholder-image.png')
+//     }
 
 
 function handleSubmit(e) {
@@ -46,11 +49,7 @@ console.log(err)
 function handlePhoto(e){
 setNewPost({...newPost,postPicture:e.target.files[0]}) //for single file
 // setNewPost({...newPost,postPicture:e.target.files[0]})
-
-
 console.log(newPost)
-
-
 }
 
   
@@ -62,12 +61,14 @@ console.log(newPost)
       <form className="border border-dark" onSubmit={handleSubmit} encType='multipart/form-data'>
             <div className="addContainer">
                 <div className="text-start">
+
                     <label className="addPostHeaders">Title:</label><br></br>
                     <input className="postTitleEntry" onChange={(e) => setPostTitle(e.target.value)} name="postTitle" value={postTitle}/>
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div>
                 <div className="text-start">
+
                     <label className="addPostHeaders">Tell Us About Your Day:</label><br></br>
                     <textarea className="postBodyText" rows="5" columns="9" placeholder="Tell us about your day"  onChange={(e) => setPostBody(e.target.value)} name="postBody" value={postBody}/>
                     <br></br>
@@ -78,6 +79,9 @@ console.log(newPost)
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div> */}
+                <div className="">
+                    <img src={`/images/${postPicture}`} className=""></img>
+                </div>
             </div>
 
         <div>
@@ -96,6 +100,7 @@ console.log(newPost)
 
            
 </form>
+
     </div>
   );
 };

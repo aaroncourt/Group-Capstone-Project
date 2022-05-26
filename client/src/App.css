@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+
+.App {
+  text-align: center;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -88,12 +93,12 @@
 .text_start {
   width: 100% !important;
   margin: auto;
+
 }
 
 
 .postTitleEntry {
   width: 80%;
-
 }
 
 .addPostHeaders {
@@ -123,3 +128,4 @@
   width: 80%;
   text-align: left;
 }
+
