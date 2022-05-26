@@ -53,6 +53,7 @@ const Main = (props) => {
 
     useEffect(() => {
         getPostData()
+        setUserInfo()
     }, [picDeleted, loaded])
 
     const setUserInfo = ()=>{

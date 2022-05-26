@@ -98,12 +98,21 @@ console.log(newPost)
                     <br></br>
                     {errors.type ? <span className="text-danger">{errors.type.message}</span> : null}
                 </div>
+                {
+        post.postPicture 
+        ? <div className="col-4">
+                <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
+        </div>
+
+        : null
+    }
                 <input 
                 type={'file'}
                 accept='.png, .jpg, .jpeg'
                 name='postPicture'
                 onChange={handlePhoto}
             />
+
                 {/* <div className="form-group">
                     <label>Photo:</label>
                     <input type="file" className="form-control" onChange={(e) => setPostPicture(e.target.value)} name="postPhoto" accept="image/*"/>
