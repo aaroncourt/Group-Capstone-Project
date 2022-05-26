@@ -66,6 +66,8 @@ function deleteHandler (imageName) {
 
 
     return (
+
+    <div className="mainContainer">
     <div>
         <Header/>
         <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
@@ -74,8 +76,8 @@ function deleteHandler (imageName) {
         {
             posts?
             posts.map((post, index)=>(
-                <div key={index} className="mt-5">
-                    <div>
+                <div key={index} className="mt-5 postMain">
+                    <div className="">
                         <h3>{post.postTitle}</h3>
                     </div>
                     <div className="row d-flex mx-auto justify-content-center">

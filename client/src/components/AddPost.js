@@ -18,6 +18,16 @@ const NewPost = (props) => {
     }
 )
 
+
+// if (postPicture === ""){
+//         setPostPicture('placeholder-image.png')
+//     }
+
+  return (
+    <div>
+      <Header/>
+      <form className="" onSubmit={submitHandler}>
+
 console.log(postTitle,postBody)
 
 
@@ -60,17 +70,18 @@ console.log(newPost)
     <div>
       <Header/>
       <form className="border border-dark" onSubmit={handleSubmit} encType='multipart/form-data'>
+
         <div className="d-flex justify-content-around">
-            <div className="col-4 mt-3">
+            <div className="col-12 addPostGroup">
                 <div className="form-group text-start ms-5">
-                    <label>Title:</label><br></br>
-                    <input className="mt-3" onChange={(e) => setPostTitle(e.target.value)} name="postTitle" value={postTitle}/>
+                    <label className="addPostHeaders">Title:</label><br></br>
+                    <input className="postTitleEntry" onChange={(e) => setPostTitle(e.target.value)} name="postTitle" value={postTitle}/>
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div>
-                <div className="form-group text-start ms-5 mt-3">
-                    <label>Tell Us About Your Day:</label><br></br>
-                    <textarea className="mt-3" onChange={(e) => setPostBody(e.target.value)} name="postBody" value={postBody}/>
+                <div className="form-group text-start ms-5 ">
+                    <label className="addPostHeaders">Tell Us About Your Day:</label><br></br>
+                    <textarea className="postBodyText" rows="5" columns="9" placeholder="Tell us about your day"  onChange={(e) => setPostBody(e.target.value)} name="postBody" value={postBody}/>
                     <br></br>
                     {errors.type ? <span className="text-danger">{errors.type.message}</span> : null}
                 </div>
@@ -80,6 +91,9 @@ console.log(newPost)
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div> */}
+                <div className="">
+                    <img src={`/images/${postPicture}`} className=""></img>
+                </div>
             </div>
         </div>
         <input 
@@ -98,6 +112,7 @@ console.log(newPost)
 
         
       </form>
+      {/* <ImageUp id ={id} postBody = {postBody} postTitle={postTitle} /> */}
     </div>
   );
 };
