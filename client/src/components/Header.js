@@ -11,7 +11,6 @@ const Header = () => {
     useEffect(() => {
         axios.get("http://localhost:8000/api/logedinuser", {withCredentials: true})
         .then((res)=>{
-            console.log(res.data);
             setUser(res.data)
         })
         .catch((err)=>{

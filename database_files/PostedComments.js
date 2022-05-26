@@ -4,39 +4,41 @@ import React, { useEffect, useState } from 'react';
 const PostedComments = (props) => {
     const { postID } = props;
     const [loaded, setLoaded] = useState(false);
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState();
     // const [commentAuthor, setCommentAuthor] = useState([]);    
 
     console.log(postID)
 
-    async function getCommentData(){
+    async function getPostData(){
         try {
-        var getComments = await axios.get(`http://localhost:8000/api/comments/all/${postID}`, {withCredentials: true})
-        var commentsData = getComments.data
-        console.log(commentsData)
-        for (var i = 0; i < commentsData.length; i++){
-            console.log(commentsData[i])
-            setComments(... comments, commentsData[i])
-        };
-        console.log(comments)
-        comments.map((comment, index) => {
-            var getAuthor = axios.get(`http://localhost:8000/api/users/${comment.commentByUser}`, {withCredentials: true})
-            console.log(getAuthor.data)
-            var authorName = getAuthor.data
-            console.log(authorName)
-            comment.author = `${authorName.firstName} ${authorName.lastName}`
-        })
-        setLoaded(true)
-    
+            var getComments = await axios.get(`http://localhost:8000/api/comments/all/${postID}`, {withCredentials: true})
+            var commentsData = getComments.data
+            console.log(commentsData)
+            var comments = []
+            for (var i = 0; i < commentsData.length; i++){
+                console.log(commentsData[i])
+                var getAuthor = await axios.get(`http://localhost:8000/api/users/${commentsData[i].commentByUser}`, {withCredentials: true})
+                var authorData = getAuthor.data
+                console.log(authorData)
+                commentsData[i]['authorName'] = `${authorData.firstName} ${authorData.lastName}`
+                console.log(commentsData[i])
+                comments.push(commentsData[i])
+            };
+                
+            setLoaded(true)
+            setComments(comments)
+            return comments
         } catch (err) {
             console.log(err)
         }
-        return comments
     }
     
     useEffect( () => {
         getCommentData()
-    }, [])
+    }, [loaded])
+
+    console.log(comments)
+
 
     // useEffect ( () => {Promise.all([
     //     axios.get(`http://localhost:8000/api/comments/all/${postID}`, {withCredentials: true})
@@ -44,7 +46,7 @@ const PostedComments = (props) => {
     //             setComments(res.data)
     //             console.log(res.data)
     //             comments.map( (comment, index) => {
-    //                 axios.get(`http://localhost:8000/api/users/${comment.commentByUser}`, {withCredentials: true})
+    //                 axios.get(`http://localhost:8000git add ./api/users/${comment.commentByUser}`, {withCredentials: true})
     //                     .then (res => {
     //                         comment.author = `${res.data.firstName} ${res.data.lastName}`
     //                     })
@@ -62,16 +64,15 @@ const PostedComments = (props) => {
     return (
         <div>
             {
-                loaded && comments.map((comment, index) => {
+                loaded && comments.map((comments, index) => {
                     return (
-                    <div key={index} id={comment.id}>
-                        <h4>{comment.author}</h4>
-                        <p>{comment.body}</p>
+                    <div key={index} id={comments.id}>
+                        <h4>{comments.author}</h4>
+                        <p>{comments.body}</p>
                     </div>
                     )
                 })
             }
-
         </div>
     );
 };
