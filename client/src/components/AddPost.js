@@ -23,13 +23,6 @@ const NewPost = (props) => {
 //         setPostPicture('placeholder-image.png')
 //     }
 
-  return (
-    <div>
-      <Header/>
-      <form className="" onSubmit={submitHandler}>
-
-console.log(postTitle,postBody)
-
 
 function handleSubmit(e) {
 e.preventDefault();
@@ -56,11 +49,7 @@ console.log(err)
 function handlePhoto(e){
 setNewPost({...newPost,postPicture:e.target.files[0]}) //for single file
 // setNewPost({...newPost,postPicture:e.target.files[0]})
-
-
 console.log(newPost)
-
-
 }
 
   
@@ -107,9 +96,6 @@ console.log(newPost)
             <button className="btn btn-primary ms-3">Add Your Day</button>
         </div>
             
-     
-
-
         
       </form>
       {/* <ImageUp id ={id} postBody = {postBody} postTitle={postTitle} /> */}
