@@ -92,12 +92,13 @@
 
 .text_start {
   width: 100% !important;
+  margin: auto;
+
 }
 
 
 .postTitleEntry {
   width: 80%;
-
 }
 
 .addPostHeaders {
@@ -119,4 +120,12 @@
   margin-right: 20px;
 } 
 
+.addContainer {
+  margin: auto;
+  /* justify-content: center; */
+  /* display: flex; */
+  /* flex-flow: column; */
+  width: 80%;
+  text-align: left;
+}
 
