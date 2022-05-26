@@ -50,7 +50,7 @@ const Header = () => {
             <div className="header_ph d-flex justify-content-center align-items-center flex-column">
                 <h1>A Day...</h1>
             </div>
-            <div className="nav">
+            <div className="nav border border-dark mt-5">
                 <div className="row d-flex mx-auto justify-content-between align-items-center">
                     <div className="col-3">
                         <Link to={"/home"} className="clean_link"><h5>Home</h5></Link>
