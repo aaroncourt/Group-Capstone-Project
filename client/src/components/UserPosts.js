@@ -43,7 +43,7 @@ const UserPosts = (props) => {
     //loop through records and add all ideaLikes
 
     return (
-       <div>
+        <div>
         <Header/>
         <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
             <button type="button" className="btn btn-success your_day">Tell Us About Your Day</button>
@@ -51,7 +51,7 @@ const UserPosts = (props) => {
         {
             posts?
             posts.map((post, index)=>(
-                <div key={index} className="mt-5">
+                <div key={index} className="mt-5 postMain">
                     <div>
                         <h3>{post.postTitle}</h3>
                     </div>
@@ -66,16 +66,14 @@ const UserPosts = (props) => {
                             {/* <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
                                 {post.postBody}
                             </span></textarea> */}
-                            <textarea value={post.postBody}>
-
-                            </textarea>
+                            <p>{post.postBody}</p>
                         </div>
                         {/* <div className="col-6">
                             <img src="{post.picture}"></img>
                         </div> */}
                     </div>
-                        <div className="mt-3 d-flex justify-content-between flex-column">
-                            <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
+                        <div className="mt-3 flex-column justifty-content-center">
+                            <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary btnRight">Edit</button></Link>
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                     {/* {post.comments}?

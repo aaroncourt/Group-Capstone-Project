@@ -89,6 +89,7 @@ function deleteHandler (imageName) {
                             {/* <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
                                 {post.postBody}
                             </span></textarea> */}
+                            <p>{post.firstName}</p>
                             <p>{post.postBody}</p>
                         </div>
                         {/* Testing post picture */}
