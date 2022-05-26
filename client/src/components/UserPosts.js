@@ -74,7 +74,7 @@ const UserPosts = (props) => {
                         </div> */}
                     </div>
                         <div className="mt-3 flex-column justifty-content-center">
-                            <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary btnRight">Edit</button></Link>
+                            <Link to={`/edit/${post._id}`}><button type="button" className="btn btn-primary btnRight">Edit</button></Link>
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                     {/* {post.comments}?
