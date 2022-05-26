@@ -42,27 +42,15 @@ const Main = (props) => {
 
     }
     
-    const logout = () => {
-        axios.post("http://localhost:8000/api/users/logout", {withCredentials: true})
-        .then((res)=>{
-            console.log(res.data);
-            navigate("/")
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+// for (let i = 0 ; i < posts.length ; i++){
+//     if (posts[i].postPicture !== undefined && posts[i].postPicture.length !== 0){
+//         continue
+//     }
 
-    }
-
-for (let i = 0 ; i < posts.length ; i++){
-    if (posts[i].postPicture !== undefined && posts[i].postPicture.length !== 0){
-        continue
-    }
-
-    else {
-        posts[i].postPicture = ['placeholder-image.png']
-    }
-}
+//     else {
+//         posts[i].postPicture = ['placeholder.png']
+//     }
+// }
 
 function deleteHandler (imageName) {
     axios.delete(`http://localhost:8000/api/post/deleteimage/${imageName}`,{withCredentials:true})
@@ -101,24 +89,24 @@ function deleteHandler (imageName) {
                             {/* <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
                                 {post.postBody}
                             </span></textarea> */}
-                            <textarea value={post.postBody}>
-
-                            </textarea>
+                            <p>{post.postBody}</p>
                         </div>
                         {/* Testing post picture */}
-                        <div className="col-6">
+                        {post.postPicture ?
+                        <div className="col-4">
                                 {console.log(post.postPicture)}
-                                <img  src={`/images/${post.postPicture[0]}`} alt=''></img>
-                                <Link to={'/home'} onClick={() => {deleteHandler(post.postPicture[0])}}>Delete</Link>
+                                <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
+                                {/* <Link to={'/home'} onClick={() => {deleteHandler(post.postPicture[0])}}>Delete</Link> */}
                         </div>
+                        : null}
                     </div>
                     {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
-
+{/* 
                             <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
                             <Replies/>
-
+ */}
                             <Link to={`/edit/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
 
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
@@ -126,8 +114,6 @@ function deleteHandler (imageName) {
                         :
                         <div className="mt-3 d-flex justify-content-between flex-column">
 
-                            <Link to={""}><button type="button" className="btn btn-primary">Like</button></Link>
-                            
                             <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">View</button></Link>
                             
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>

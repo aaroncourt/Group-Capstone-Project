@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header"
+import ImageUp from "./ImageUpLoader";
 
 const NewPost = (props) => {
   const [errors, setErrors] = useState({});
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
-  const [postPicture, setPostPicture] = useState("");
+  const [postPicture, setPostPicture] = useState("placeholder.png");
   const [postBy, setPostBy] = useState("");
   const navigate = useNavigate();
 
@@ -25,6 +26,10 @@ const NewPost = (props) => {
         setErrors(err.response.data.errors);
       });
   };
+
+// if (postPicture === ""){
+//         setPostPicture('placeholder-image.png')
+//     }
 
   return (
     <div>
@@ -50,12 +55,16 @@ const NewPost = (props) => {
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div> */}
+                <div className="">
+                    <img src={`/images/${postPicture}`} className=""></img>
+                </div>
             </div>
         </div>
         <div className="m-5 text-start">
             <button className="btn btn-primary ms-3">Add Your Day</button>
         </div>
       </form>
+      {/* <ImageUp id ={id} postBody = {postBody} postTitle={postTitle} /> */}
     </div>
   );
 };
