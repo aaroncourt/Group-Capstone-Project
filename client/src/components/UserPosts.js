@@ -44,7 +44,7 @@ const UserPosts = (props) => {
     //loop through records and add all ideaLikes
 
     return (
-       <div>
+        <div>
         <Header/>
         <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
             <button type="button" className="btn btn-success your_day">Tell Us About Your Day</button>

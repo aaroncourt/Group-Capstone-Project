@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Header from "../components/Header"
 
 const Login = (props) => {
 
@@ -87,6 +88,7 @@ const Login = (props) => {
             </Container> */}
 
 <div className=' container ' >
+
             <form className='login-form align-items-center  ' onSubmit={loginHand}>
                 <h1>Welcome Back!</h1>
                 <div className='login-from-element row mb-3  '>
