@@ -52,21 +52,8 @@ const Main = (props) => {
 
 
     useEffect(() => {
-<<<<<<< HEAD
         getPostData()
     }, [picDeleted, loaded])
-=======
-        axios.get(`http://localhost:8000/api/posts/all`, {withCredentials: true})
-        .then((res)=>{
-            setUserInfo();
-            setPosts(res.data);
-            console.log(res.data)
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
-    }, [picDeleted])
->>>>>>> 5ac2f39a79a35f9456b165a3b0dc1509384d072c
 
     const setUserInfo = ()=>{
         axios.get("http://localhost:8000/api/logedinuser", {withCredentials: true})
@@ -92,15 +79,6 @@ const Main = (props) => {
         .catch((err) => console.log(err))
 }
 
-<<<<<<< HEAD
-    if (!loaded) {
-        console.log('Waiting')
-        return <div className="App">Loading...</div>;
-    }
-
-    console.log(posts[0].comments)
-=======
->>>>>>> 5ac2f39a79a35f9456b165a3b0dc1509384d072c
     return (
 
     <div className="mainContainer">
@@ -157,11 +135,8 @@ const Main = (props) => {
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                     }
-<<<<<<< HEAD
-=======
                     
 
->>>>>>> 5ac2f39a79a35f9456b165a3b0dc1509384d072c
                 </div>
             )})
         }
