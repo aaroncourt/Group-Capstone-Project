@@ -137,6 +137,7 @@ function deleteHandler (imageName) {
             :null
         }
        </div>
+       </div>
     )
 }
 
