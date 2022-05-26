@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header"
+import ImageUp from "./ImageUpLoader";
 
 const EditPost = (props) => {
   const [errors, setErrors] = useState({});
@@ -26,22 +27,6 @@ const EditPost = (props) => {
       .catch(err => console.error(err));
   }, []);
 
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    // axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody, postPicture:postPicture, postedBy:postBy})
-    axios.put(`http://localhost:8000/api/posts/${id}/edit`, {postTitle:postTitle, postBody:postBody}, {withCredentials: true})
-      .then((res) => {
-        console.log("res info is: ")
-        console.log(res.data);
-        navigate("/home");
-      })
-      .catch((err) => {
-        console.log(`err is: ${err}`);
-        setErrors(err.response.data.errors);
-      });
-  };
-
   const deleteHandler = (id)=>{
     axios.delete(`http://localhost:8000/api/posts/${id}`, {withCredentials: true})
         .then((res)=>{
@@ -53,10 +38,52 @@ const EditPost = (props) => {
         })
 }
 
+const [newPost,setNewPost] = useState(
+  {
+  postPicture:''
+  }
+)
+
+//// trying to integrate imgeupdate
+function handleSubmit(e) {
+e.preventDefault();
+const formData = new FormData();
+
+formData.append('postTitle',postTitle);
+formData.append('postBody',postBody);
+formData.append('postPicture',newPost.postPicture);
+
+console.log(newPost.postPicture)
+axios.put(`http://localhost:8000/api/post/addimage/${id}`,formData,{withCredentials: true})
+.then((res) => {
+console.log(res)
+navigate('/home')
+
+})
+.catch((err) => {
+console.log(err)
+setErrors(err.response.data.errors);
+})
+
+
+}
+
+function handlePhoto(e){
+setNewPost({...newPost,postPicture:e.target.files[0]}) //for single file
+// setNewPost({...newPost,postPicture:e.target.files[0]})
+
+
+console.log(newPost)
+
+
+}
+
+
+
   return (
     <div>
       <Header/>
-      <form className="border border-dark" onSubmit={submitHandler}>
+      <form className="border border-dark" onSubmit={handleSubmit} handleSubmit>
         <div className="d-flex justify-content-around">
             <div className="col-4 mt-3">
                 <div className="form-group text-start ms-5">
@@ -71,6 +98,12 @@ const EditPost = (props) => {
                     <br></br>
                     {errors.type ? <span className="text-danger">{errors.type.message}</span> : null}
                 </div>
+                <input 
+                type={'file'}
+                accept='.png, .jpg, .jpeg'
+                name='postPicture'
+                onChange={handlePhoto}
+            />
                 {/* <div className="form-group">
                     <label>Photo:</label>
                     <input type="file" className="form-control" onChange={(e) => setPostPicture(e.target.value)} name="postPhoto" accept="image/*"/>
@@ -81,7 +114,7 @@ const EditPost = (props) => {
         </div>
         <div className="m-5 text-start">
             <button className="btn btn-primary ms-3">Update Your Day</button>
-       </div>
+      </div>
       </form>
             <button className='btn btn-danger my-3' onClick={(e)=>deleteHandler(post._id)}>Delete</button>
     </div>

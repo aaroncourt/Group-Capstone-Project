@@ -12,20 +12,12 @@ const NewPost = (props) => {
   const [postBy, setPostBy] = useState("");
   const navigate = useNavigate();
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    // axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody, postPicture:postPicture, postedBy:postBy})
-    axios.post("http://localhost:8000/api/posts/new", {postTitle:postTitle, postBody:postBody}, {withCredentials: true})
-      .then((res) => {
-        console.log("res info is: ")
-        console.log(res.data);
-        navigate("/home");
-      })
-      .catch((err) => {
-        console.log(`err is: ${err}`);
-        setErrors(err.response.data.errors);
-      });
-  };
+  const [newPost,setNewPost] = useState(
+    {
+    postPicture:''
+    }
+)
+
 
 // if (postPicture === ""){
 //         setPostPicture('placeholder-image.png')
@@ -35,6 +27,50 @@ const NewPost = (props) => {
     <div>
       <Header/>
       <form className="" onSubmit={submitHandler}>
+
+console.log(postTitle,postBody)
+
+
+function handleSubmit(e) {
+e.preventDefault();
+const formData = new FormData();
+
+formData.append('postTitle',postTitle);
+formData.append('postBody',postBody);
+formData.append('postPicture',newPost.postPicture);
+
+axios.post(`http://localhost:8000/api/posts/new`,formData,{withCredentials: true})
+.then((res) => {
+console.log(res)
+navigate('/home')
+
+})
+.catch((err) => {
+console.log(err)
+
+})
+
+
+}
+
+function handlePhoto(e){
+setNewPost({...newPost,postPicture:e.target.files[0]}) //for single file
+// setNewPost({...newPost,postPicture:e.target.files[0]})
+
+
+console.log(newPost)
+
+
+}
+
+  
+
+  
+  return (
+    <div>
+      <Header/>
+      <form className="border border-dark" onSubmit={handleSubmit} encType='multipart/form-data'>
+
         <div className="d-flex justify-content-around">
             <div className="col-12 addPostGroup">
                 <div className="form-group text-start ms-5">
@@ -60,9 +96,21 @@ const NewPost = (props) => {
                 </div>
             </div>
         </div>
+        <input 
+                type={'file'}
+                accept='.png, .jpg, .jpeg'
+                name='postPicture'
+                onChange={handlePhoto}
+            />
+
         <div className="m-5 text-start">
             <button className="btn btn-primary ms-3">Add Your Day</button>
         </div>
+            
+     
+
+
+        
       </form>
       {/* <ImageUp id ={id} postBody = {postBody} postTitle={postTitle} /> */}
     </div>
