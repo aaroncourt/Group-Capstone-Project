@@ -6,11 +6,6 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import Replies from "../components/Replies"
 import Header from "./Header"
-<<<<<<< HEAD
-=======
-
-
->>>>>>> parent of 325636e (push for code testing)
 
 const Main = (props) => {
     const[posts, setPosts] = useState([{comments: ""}]);
@@ -56,21 +51,8 @@ const Main = (props) => {
 
 
     useEffect(() => {
-<<<<<<< HEAD
         getPostData()
     }, [picDeleted, loaded])
-=======
-        axios.get(`http://localhost:8000/api/posts/all`, {withCredentials: true})
-        .then((res)=>{
-            setUserInfo();
-            setPosts(res.data);
-            console.log(posts);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
-    }, [picDeleted])
->>>>>>> parent of 325636e (push for code testing)
 
     const setUserInfo = ()=>{
         axios.get("http://localhost:8000/api/logedinuser", {withCredentials: true})
@@ -96,16 +78,12 @@ const Main = (props) => {
         .catch((err) => console.log(err))
 }
 
-<<<<<<< HEAD
     if (!loaded) {
         console.log('Waiting')
         return <div className="App">Loading...</div>;
     }
 
     console.log(posts[0].comments)
-=======
-
->>>>>>> parent of 325636e (push for code testing)
     return (
 
     <div className="mainContainer">
@@ -126,7 +104,6 @@ const Main = (props) => {
                         <div className="col-4">
                             <p>{post.postBody}</p>
                         </div>
-<<<<<<< HEAD
                         {
                             post.postPicture 
                             ? <div className="col-4">
@@ -145,16 +122,6 @@ const Main = (props) => {
                                 )
                             })
                         }
-=======
-                        {/* Testing post picture */}
-                        {post.postPicture ?
-                        <div className="col-4">
-                                {console.log(post.postPicture)}
-                                <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
-                                {/* <Link to={'/home'} onClick={() => {deleteHandler(post.postPicture[0])}}>Delete</Link> */}
-                        </div>
-                        : null}
->>>>>>> parent of 325636e (push for code testing)
                     </div>
                     {
                         post.postedBy == user._id ?
@@ -168,18 +135,6 @@ const Main = (props) => {
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                     }
-<<<<<<< HEAD
-=======
-                    
-                    {/* {post.comments}?
-                    {post.comments.map((comment, index)=>(
-                        <div key={index}>
-                            <p>{comment.byuser}</p>
-                            <textarea>{comment.body}</textarea>
-                        </div>
-                        ))} 
-                        :null */}
->>>>>>> parent of 325636e (push for code testing)
                 </div>
             )})
         }
