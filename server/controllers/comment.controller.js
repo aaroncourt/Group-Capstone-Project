@@ -7,9 +7,12 @@ module.exports = {
     createComment: (req, res) => {
         const commentByUser = req.jwtpayload.id
         const commentOnPost = req.params.id
-        let cm = req.body
-        cm.commentOnPost = commentOnPost
-        cm.commentByUser = commentByUser
+        let cm = {
+            commentBody: req.body,
+            commentByUser: commentByUser,
+            commentOnPost: commentOnPost
+        }
+
         Comment.create(cm)
             .then(newComment => {res.json(newComment)})
             .catch(err => {res.status(400).json(err)})
@@ -18,16 +21,7 @@ module.exports = {
     getAllCommentsByPostId: (req, res) => {
         Comment.find({ commentOnPost: req.params.id })
             .then(allComments => {
-                let totalComments = 0
-                allComments.forEach(comment => {
-                    totalComments++
-                })
-
-                data = {
-                    'allLikes': allComments,
-                    'totalComments': totalComments
-                }
-                res.json(data)
+                res.json(allComments)
             })
             .catch(err => {
                 res.json({message: 'Something went wrong: ', error: err})

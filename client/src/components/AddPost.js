@@ -18,7 +18,10 @@ const NewPost = (props) => {
     }
 )
 
-console.log(postTitle,postBody)
+
+// if (postPicture === ""){
+//         setPostPicture('placeholder-image.png')
+//     }
 
 
 function handleSubmit(e) {
@@ -46,11 +49,7 @@ console.log(err)
 function handlePhoto(e){
 setNewPost({...newPost,postPicture:e.target.files[0]}) //for single file
 // setNewPost({...newPost,postPicture:e.target.files[0]})
-
-
 console.log(newPost)
-
-
 }
 
   
@@ -60,44 +59,48 @@ console.log(newPost)
     <div>
       <Header/>
       <form className="border border-dark" onSubmit={handleSubmit} encType='multipart/form-data'>
-        <div className="d-flex justify-content-around">
-            <div className="col-4 mt-3">
-                <div className="form-group text-start ms-5">
-                    <label>Title:</label><br></br>
-                    <input className="mt-3" onChange={(e) => setPostTitle(e.target.value)} name="postTitle" value={postTitle}/>
+            <div className="addContainer">
+                <div className="text-start">
+
+                    <label className="addPostHeaders">Title:</label><br></br>
+                    <input className="postTitleEntry" onChange={(e) => setPostTitle(e.target.value)} name="postTitle" value={postTitle}/>
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div>
-                <div className="form-group text-start ms-5 mt-3">
-                    <label>Tell Us About Your Day:</label><br></br>
-                    <textarea className="mt-3" onChange={(e) => setPostBody(e.target.value)} name="postBody" value={postBody}/>
+                <div className="text-start">
+
+                    <label className="addPostHeaders">Tell Us About Your Day:</label><br></br>
+                    <textarea className="postBodyText" rows="5" columns="9" placeholder="Tell us about your day"  onChange={(e) => setPostBody(e.target.value)} name="postBody" value={postBody}/>
                     <br></br>
                     {errors.type ? <span className="text-danger">{errors.type.message}</span> : null}
-                </div>
                 {/* <div className="form-group">
                     <label>Photo:</label>
                     <input type="file" className="form-control" onChange={(e) => setPostPicture(e.target.value)} name="postPhoto" accept="image/*"/>
                     <br></br>
                     {errors.name ? <span className="text-danger">{errors.name.message}</span> : null}
                 </div> */}
+                <div className="">
+                    <img src={`/images/${postPicture}`} className=""></img>
+                </div>
             </div>
-        </div>
+
+        <div>
+        <label className="addPostHeaders" style={{paddingRight: "20px", textAlign: "left"}}>Add a photo</label>
         <input 
                 type={'file'}
                 accept='.png, .jpg, .jpeg'
                 name='postPicture'
                 onChange={handlePhoto}
             />
-
-        <div className="m-5 text-start">
-            <button className="btn btn-primary ms-3">Add Your Day</button>
+</div>
+<div className="text-start" style={{marginTop:"30px", marginBottom:"30px"}}>
+            <button className="btn btn-primary">Add Your Day</button>
         </div>
-            
-     
+</div>
 
+           
+</form>
 
-        
-      </form>
     </div>
   );
 };

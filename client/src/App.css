@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+
+.App {
+  text-align: center;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,6 +18,9 @@
   }
 }
 
+.mainContainer {
+  margin-bottom: 40px;
+}
 /* .heroImage {
   background-image: url('http://www.paulmorgandesigns.com/images/PEEPS.jpg');
   top: 0px;
@@ -60,17 +68,64 @@
   color: white;
 }
 
-.mt-5 {
+.postMain {
   padding-bottom: 30px;
   margin-bottom: 30px; 
-  border-bottom: 1px solid black
+  background-color: #e5e5e5;
+  padding: 30px;
+  width: 80%;
+ border-radius: 4px;
+ margin: auto;
 }
 
 .btn-primary {
   margin-top: 10px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .your_day {
-  font-size: 30px;
+  font-size: 30px !important;
 }
+
+.text_start {
+  width: 100% !important;
+  margin: auto;
+
+}
+
+
+.postTitleEntry {
+  width: 80%;
+}
+
+.addPostHeaders {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 30px;
+}
+
+.addPostGroup {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.postBodyText {
+  width: 80%;
+}
+
+.btnRight {
+  margin-right: 20px;
+} 
+
+.addContainer {
+  margin: auto;
+  /* justify-content: center; */
+  /* display: flex; */
+  /* flex-flow: column; */
+  width: 80%;
+  text-align: left;
+}
+
