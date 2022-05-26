@@ -8,28 +8,52 @@ import Replies from "../components/Replies"
 import Header from "./Header"
 import PostedComments from './PostedComments';
 
-
-
 const Main = (props) => {
-    const[posts, setPosts] = useState([]);
+    const[posts, setPosts] = useState([{comments: ""}]);
     const {id} = useParams(); 
     const[user, setUser] = useState({});
     const[pictures, setPictures] = useState();
     const[likes, setLikes] = useState();
     const navigate = useNavigate();
     const [picDeleted,setPicDeleted] = useState(false)
+    const [loaded, setLoaded] = useState(false)
+
+    async function getPostData(){
+        try {
+            // get posts
+            var packagedPosts = []
+            var getPosts = await axios.get(`http://localhost:8000/api/posts/all`, {withCredentials: true})
+            var gottenPosts = getPosts.data
+            for(var i = 0; i < gottenPosts.length; i++){
+                packagedPosts.push(gottenPosts[i])
+                // get comments by post ID
+                var comments = []
+                var getCommentsOnPost = await axios.get(`http://localhost:8000/api/comments/all/${gottenPosts[i]['_id']}`, {withCredentials: true})
+                var commentsByPost = getCommentsOnPost.data
+
+                for (var j = 0; j < commentsByPost.length; j++){
+                    var getAuthor = await axios.get(`http://localhost:8000/api/users/${commentsByPost[j].commentByUser}`, {withCredentials: true})
+                    var authorData = getAuthor.data
+                    commentsByPost[j]['authorName'] = `${authorData.username}`
+                    comments.push(commentsByPost[j])
+                };
+            
+                packagedPosts[i]['comments'] = comments
+            }
+            setPosts(packagedPosts)
+            console.log(packagedPosts)
+            {posts && setLoaded(true)}
+            return console.log("Loaded")
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/posts/all`, {withCredentials: true})
-        .then((res)=>{
-            setUserInfo();
-            setPosts(res.data);
-            console.log(res.data)
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
-    }, [picDeleted])
+        getPostData()
+    }, [picDeleted, loaded])
 
     const setUserInfo = ()=>{
         axios.get("http://localhost:8000/api/logedinuser", {withCredentials: true})
@@ -42,27 +66,17 @@ const Main = (props) => {
         })
 
     }
-    
-// for (let i = 0 ; i < posts.length ; i++){
-//     if (posts[i].postPicture !== undefined && posts[i].postPicture.length !== 0){
-//         continue
-//     }
 
-//     else {
-//         posts[i].postPicture = ['placeholder.png']
-//     }
-// }
+    function deleteHandler (imageName) {
+        axios.delete(`http://localhost:8000/api/post/deleteimage/${imageName}`,{withCredentials:true})
+        .then((res) => {
+            console.log(res)
+            setPicDeleted(true)
+            navigate("/home")
 
-function deleteHandler (imageName) {
-    axios.delete(`http://localhost:8000/api/post/deleteimage/${imageName}`,{withCredentials:true})
-    .then((res) => {
-        console.log(res)
-        setPicDeleted(true)
-        navigate("/home")
-
-        
-    })
-    .catch((err) => console.log(err))
+            
+        })
+        .catch((err) => console.log(err))
 }
 
     return (
@@ -73,35 +87,39 @@ function deleteHandler (imageName) {
         <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
         <Link to={"/add"} className="clean_link your_day"><button type="button" className="btn btn-success your_day">Tell Us About Your Day</button></Link>
         </div>
-        {
-            posts?
-            posts.map((post, index)=>(
+        { loaded &&
+            posts.map((post, index)=>{
+                return(
                 <div key={index} className="mt-5 postMain">
                     <div className="">
                         <h3>{post.postTitle}</h3>
                     </div>
+
                     <div className="row d-flex mx-auto justify-content-center">
-                        {/* <div className="col-2">
-                            <img src="{post.user.pic}"></img>
-                            <img src="{post.likes}"></img>
-                        </div> */}
-                        <div className="col-4">
-                            {/* <p>Post by:</p>
-                            <p>{post.by}</p> */}
-                            {/* <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
-                                {post.postBody}
-                            </span></textarea> */}
+
+
                             <p>{post.firstName}</p>
+
                             <p>{post.postBody}</p>
                         </div>
-                        {/* Testing post picture */}
-                        {post.postPicture ?
-                        <div className="col-4">
-                                {console.log(post.postPicture)}
-                                <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
-                                {/* <Link to={'/home'} onClick={() => {deleteHandler(post.postPicture[0])}}>Delete</Link> */}
-                        </div>
-                        : null}
+                        {
+                            post.postPicture 
+                            ? <div className="col-4">
+                                    <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
+                            </div>
+
+                            : null
+                        }
+                        
+                        {post.comments.map((comment, index) =>{ 
+                                return (
+                                    <div key={index} id={comment._id}>
+                                        <h4>{comment.authorName}</h4>
+                                        <p>{comment.commentBody}</p>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
 
                     <div>
@@ -111,32 +129,22 @@ function deleteHandler (imageName) {
                     {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
-{/* 
-                            <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
-                            <Replies/>
- */}
                             <Link to={`/edit/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
-
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                         :
                         <div className="mt-3 d-flex justify-content-between flex-column">
-
                             <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">View</button></Link>
-                            
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
-                        
                     }
                     
 
                 </div>
-
-            ))
-            :null
+            )})
         }
-       </div>
-       </div>
+    </div>
+    </div>
     )
 }
 
