@@ -81,8 +81,8 @@ const Main = (props) => {
 
     return (
 
-    <div className="mainContainer">
-
+        <div className="mainContainer">
+    
         <Header/>
         <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
         <Link to={"/add"} className="clean_link your_day"><button type="button" className="btn btn-success your_day">Tell Us About Your Day</button></Link>
@@ -96,10 +96,7 @@ const Main = (props) => {
                     </div>
 
                     <div className="row d-flex mx-auto justify-content-center">
-
-
-                            <p>{post.firstName}</p>
-
+                        <div className="col-4">
                             <p>{post.postBody}</p>
                         </div>
                         {
@@ -121,11 +118,6 @@ const Main = (props) => {
                             })
                         }
                     </div>
-
-                    <div>
-                    <PostedComments postID = {post._id}/>
-                    </div>
-
                     {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
@@ -138,12 +130,10 @@ const Main = (props) => {
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
                         </div>
                     }
-                    
-
                 </div>
             )})
         }
-    </div>
+    
     </div>
     )
 }
