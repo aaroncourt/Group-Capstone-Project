@@ -41,9 +41,14 @@ const OnePost = (props) => {
                             </span></textarea> */}
                             <p>{post.postBody}</p>
                         </div>
-                        {/* <div className="col-6">
-                            <img src="{post.picture}"></img>
-                        </div> */}
+                        {
+                            post.postPicture 
+                            ? <div className="col-4">
+                                    <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
+                            </div>
+
+                            : null
+                        }
                     </div>
                     <div className="mt-3 d-flex justify-content-between flex-column">
                         <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
