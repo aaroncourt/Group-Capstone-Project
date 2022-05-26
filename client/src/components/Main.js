@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import Replies from "../components/Replies"
 import Header from "./Header"
+import PostedComments from './PostedComments';
 
 
 
@@ -23,7 +24,7 @@ const Main = (props) => {
         .then((res)=>{
             setUserInfo();
             setPosts(res.data);
-            console.log(posts);
+            console.log(res.data)
         })
         .catch((err)=>{
             console.log(err);
@@ -64,7 +65,6 @@ function deleteHandler (imageName) {
     .catch((err) => console.log(err))
 }
 
-
     return (
 
     <div className="mainContainer">
@@ -102,6 +102,11 @@ function deleteHandler (imageName) {
                         </div>
                         : null}
                     </div>
+
+                    <div>
+                    <PostedComments postID = {post._id}/>
+                    </div>
+
                     {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
@@ -123,14 +128,7 @@ function deleteHandler (imageName) {
                         
                     }
                     
-                    {/* {post.comments}?
-                    {post.comments.map((comment, index)=>(
-                        <div key={index}>
-                            <p>{comment.byuser}</p>
-                            <textarea>{comment.body}</textarea>
-                        </div>
-                        ))} 
-                        :null */}
+
                 </div>
 
             ))
