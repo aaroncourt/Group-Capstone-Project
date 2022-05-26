@@ -8,11 +8,10 @@ module.exports = {
 
     createUser: async (req, res) => {
         try{
+
             let user = req.body
-            if (user.password != user.confirmPassword){
-                throw new Error("Passwords don't match") 
-            }
             const newuser = await User.create(user)
+            console.log(newuser)
             res.json(newuser)
             
         }
@@ -22,45 +21,50 @@ module.exports = {
         }
 
     },
-
     loginUser:  (async (req,res) => {
+        console.log(req.body.password)
         try{
             const findUser = await User.findOne({username: req.body.username})
+            console.log(findUser)
+            console.log(await bcrypt.hash(req.body.password, 10))
+            console.log(await bcrypt.hash('password', 10))
             if(findUser === null){
                 console.log('invalid login attempt','this is from first check if null')
                 res.status(400).json({message:"invalid login attempt"})
-            } else {
-                if (findUser){
-                    await findUser.comparePassword(req.body.password, function(err, isMatch){
-                        if (err) throw err;
-                        console.log("password is valid")
-                        res.cookie('usertoken',
-                            jwt.sign({
-                                id: findUser._id,
-                                username:findUser.username
-                            },process.env.JWT_SECRET),
-                            {
-                                httpOnly:true,
-                                expires: new Date(Date.now()+ 9000000)
-                            }
-                        ).json({
-                            message:"Succesfully",
-                            userLoggedIn: findUser.username,
-                            userId: findUser._id
-                        });
-                    });
-                } else {
+            }else {
+                if(findUser.password == req.body.password) {
+                    console.log("password is valid")
+                    res.cookie('usertoken',
+                        jwt.sign({
+                            id: findUser._id,
+                            username:findUser.username
+                        },process.env.JWT_SECRET),
+                        {
+                            httpOnly:true,
+                            expires: new Date(Date.now()+ 9000000)
+                        }
+                    ).json({
+                        message:"Succesfully",
+                        userLoggedIn: findUser.username,
+                        userId: findUser._id
+                    })
+                }
+                else {
                     console.log('invalid login attempt, username or password')
                     res.status(400).json({message:"invalid Attempt"})
                 }
             }
+
+                        
+                    
         }
+            
+    
         catch(err){
             console.log(err)
             return res.status(400).json({message:'Something went wrong with login process',error:err})
         }
     }),
-
     logout:(async(req,res) => {
         console.log("loging out")
         res.clearCookie("usertoken")

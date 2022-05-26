@@ -53,33 +53,17 @@ const UserSchema = new mongoose.Schema ({
     }
 },{timestamps:true})
 
-// UserSchema.virtual("confirmPassword")
-//     .get(() => this._confirmPassword)
-//     .set((value) => this._confirmPassword = value)
+UserSchema.virtual("confirmPassword")
+    .get(() => this._confirmPassword)
+    .set((value) => this._confirmPassword = value)
 
-// UserSchema.pre('validate', function(next) {
-//     if (this.password !== this.confirmPassword) {
-//         this.invalidate('confirmPassword', 'Password must match confirm password');
-//     }
-//     next();
-//     });
+UserSchema.pre('validate', function(next) {
+    if (this.password !== this.confirmPassword) {
+        this.invalidate('confirmPassword', 'Password must match confirm password');
+    }
+    next();
+    });
+    
 
-    UserSchema.pre('save', function(next) {
-        bcrypt.hash(this.password, 10)
-            .then(hash => {
-                this.password = hash;
-                console.log("UserSchema line 71: " + hash)
-                console.log("UserSchema line 72: " + this.password)
-                next();
-            });
-        });
-        
-    UserSchema.methods.comparePassword = function(attemptPassword, cb) {
-        bcrypt.compare(attemptPassword, this.password, function(err, isMatch){
-            console.log("UserSchema line 77")
-            if (err) return cb(err);
-            cb(null, isMatch);
-        });
-    };
     UserSchema.plugin(uniqueValidator,{message: 'This Field need to be unique'});
     module.exports = mongoose.model('User',UserSchema)
