@@ -122,7 +122,7 @@ module.exports = {
         try{
             // const decodedJWT = jwt.decode(req.cookies.usertoken,{complete:true})
             const findUser = await User.findOne({_id:req.jwtpayload.id})
-            console.log(findUser)
+            // console.log(findUser)
             res.json(findUser)
         }
         catch(err){

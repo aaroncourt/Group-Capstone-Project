@@ -53,7 +53,7 @@ function handlePhoto(e){
 
 return (
     <div>
-    <h1>Add Images</h1>
+    <h3>Edit Image</h3>
     <form onSubmit={handleSubmit} encType='multipart/form-data'>
             
             <input 
