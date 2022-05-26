@@ -28,8 +28,6 @@ function App() {
             user={user}
             setUser={setUser}/>
             <Route path="/edit/:id" element={<EditPost/>}
-            socket={socket}
-            setSocket={setSocket}
             user={user}
             setUser={setUser}/>
             <Route path="/view/:id" element={<OnePost/>}

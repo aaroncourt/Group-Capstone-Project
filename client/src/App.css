@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+
+.App {
+  text-align: center;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,26 +18,105 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.mainContainer {
+  margin-bottom: 40px;
+}
+/* .heroImage {
+  background-image: url('http://www.paulmorgandesigns.com/images/PEEPS.jpg');
+  top: 0px;
+  background-size: cover;
+  height: 500px;
+  background-position: center;
+  position: relative;
+  margin-bottom: 40px;
+  z-index: -1;
+} */
+
+
+.header_ph {
+  background-image: url('http://www.paulmorgandesigns.com/images/day-hero.jpg');
+  top: 0px;
+  background-size: cover;
+  height: 500px;
+  background-position: center;
+  position: relative;
+  z-index: -1;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.header_ph h1 {
+    top: 70px;
+    width: 50%;
+    position: absolute;
+    left: 5%;
+    font-size: 80px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav {
+  width: 100% !important;
 }
+
+.nav .row {
+  border: 0px;
+  background-color: #003300;
+  width: 100% !important;
+  padding: 20px;
+}
+
+.clean_link h5 {
+  color: white;
+}
+
+.postMain {
+  padding-bottom: 30px;
+  margin-bottom: 30px; 
+  background-color: #e5e5e5;
+  padding: 30px;
+  width: 80%;
+ border-radius: 4px;
+ margin: auto;
+}
+
+.btn-primary {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.your_day {
+  font-size: 30px !important;
+}
+
+.text_start {
+  width: 100% !important;
+}
+
+
+.postTitleEntry {
+  width: 80%;
+
+}
+
+.addPostHeaders {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 30px;
+}
+
+.addPostGroup {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.postBodyText {
+  width: 80%;
+}
+
+.btnRight {
+  margin-right: 20px;
+} 
+
+

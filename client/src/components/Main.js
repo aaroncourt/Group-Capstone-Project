@@ -16,6 +16,7 @@ const Main = (props) => {
     const[pictures, setPictures] = useState();
     const[likes, setLikes] = useState();
     const navigate = useNavigate();
+    const [picDeleted,setPicDeleted] = useState(false)
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/posts/all`, {withCredentials: true})
@@ -27,7 +28,7 @@ const Main = (props) => {
         .catch((err)=>{
             console.log(err);
         })
-    }, [])
+    }, [picDeleted])
 
     const setUserInfo = ()=>{
         axios.get("http://localhost:8000/api/logedinuser", {withCredentials: true})
@@ -41,22 +42,31 @@ const Main = (props) => {
 
     }
     
-    const logout = () => {
-        axios.post("http://localhost:8000/api/users/logout", {withCredentials: true})
-        .then((res)=>{
-            console.log(res.data);
-            navigate("/")
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+// for (let i = 0 ; i < posts.length ; i++){
+//     if (posts[i].postPicture !== undefined && posts[i].postPicture.length !== 0){
+//         continue
+//     }
 
-    }
+//     else {
+//         posts[i].postPicture = ['placeholder.png']
+//     }
+// }
 
+function deleteHandler (imageName) {
+    axios.delete(`http://localhost:8000/api/post/deleteimage/${imageName}`,{withCredentials:true})
+    .then((res) => {
+        console.log(res)
+        setPicDeleted(true)
+        navigate("/home")
+
+        
+    })
+    .catch((err) => console.log(err))
+}
 
 
     return (
-       <div>
+    <div className="mainContainer">
         <Header/>
         <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
         <Link to={"/add"} className="clean_link your_day"><button type="button" className="btn btn-success your_day">Tell Us About Your Day</button></Link>
@@ -64,8 +74,8 @@ const Main = (props) => {
         {
             posts?
             posts.map((post, index)=>(
-                <div key={index} className="mt-5">
-                    <div>
+                <div key={index} className="mt-5 postMain">
+                    <div className="">
                         <h3>{post.postTitle}</h3>
                     </div>
                     <div className="row d-flex mx-auto justify-content-center">
@@ -79,21 +89,24 @@ const Main = (props) => {
                             {/* <textarea><span class="d-inline-block text-truncate" style={{maxHeight: 4+"rem"}}>
                                 {post.postBody}
                             </span></textarea> */}
-                            <textarea value={post.postBody}>
-
-                            </textarea>
+                            <p>{post.postBody}</p>
                         </div>
-                        {/* <div className="col-6">
-                            <img src="{post.picture}"></img>
-                        </div> */}
+                        {/* Testing post picture */}
+                        {post.postPicture ?
+                        <div className="col-4">
+                                {console.log(post.postPicture)}
+                                <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
+                                {/* <Link to={'/home'} onClick={() => {deleteHandler(post.postPicture[0])}}>Delete</Link> */}
+                        </div>
+                        : null}
                     </div>
                     {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
-
+{/* 
                             <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
                             <Replies/>
-
+ */}
                             <Link to={`/edit/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
 
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
@@ -101,8 +114,6 @@ const Main = (props) => {
                         :
                         <div className="mt-3 d-flex justify-content-between flex-column">
 
-                            <Link to={""}><button type="button" className="btn btn-primary">Like</button></Link>
-                            
                             <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">View</button></Link>
                             
                             <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
