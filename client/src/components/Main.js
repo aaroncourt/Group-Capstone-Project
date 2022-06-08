@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import Replies from "../components/Replies"
 import Header from "./Header"
-import PostedComments from './PostedComments';
+import NewComment from './NewComment';
 
 const Main = (props) => {
     const[posts, setPosts] = useState([{comments: ""}]);
@@ -17,6 +17,7 @@ const Main = (props) => {
     const navigate = useNavigate();
     const [picDeleted,setPicDeleted] = useState(false)
     const [loaded, setLoaded] = useState(false)
+    const [showNewComment, setShowNewComment] = useState(false)
 
     async function getPostData(){
         try {
@@ -24,6 +25,7 @@ const Main = (props) => {
             var packagedPosts = []
             var getPosts = await axios.get(`http://localhost:8000/api/posts/all`, {withCredentials: true})
             var gottenPosts = getPosts.data
+            console.log(gottenPosts)
             for(var i = 0; i < gottenPosts.length; i++){
                 packagedPosts.push(gottenPosts[i])
                 // get comments by post ID
@@ -68,6 +70,14 @@ const Main = (props) => {
 
     }
 
+    const showNewCommentField = () => {
+        if (!showNewComment){
+            setShowNewComment(true)
+        } else {
+            setShowNewComment(false)
+        }
+    }
+
     function deleteHandler (imageName) {
         axios.delete(`http://localhost:8000/api/post/deleteimage/${imageName}`,{withCredentials:true})
         .then((res) => {
@@ -78,6 +88,8 @@ const Main = (props) => {
             
         })
         .catch((err) => console.log(err))
+
+    
 }
 
     return (
@@ -89,7 +101,7 @@ const Main = (props) => {
         <Link to={"/add"} className="clean_link your_day"><button type="button" className="btn btn-success your_day">Tell Us About Your Day</button></Link>
         </div>
         { loaded &&
-            posts.map((post, index)=>{
+            posts.sort((a, b) => a.createdAt > b.createdAt ? -1 : 1 ).map((post, index)=>{
                 return(
                 <div key={index} className="mt-5 postMain">
                     <div className="">
@@ -102,33 +114,48 @@ const Main = (props) => {
                         </div>
                         {
                             post.postPicture 
-                            ? <div className="col-4">
-                                    <img  src={`/images/${post.postPicture[0]}`} alt=''style={{height: 250}}></img>
+                            ? <div className="col-4 w-50 h-25">
+                                    <img className='w-100' src={`/images/${post.postPicture[0]}`} alt=''></img>
                             </div>
 
                             : null
                         }
                         
-                        {post.comments.map((comment, index) =>{ 
-                                return (
-                                    <div key={index} id={comment._id}>
-                                        <h4>{comment.authorName}</h4>
-                                        <p>{comment.commentBody}</p>
-                                    </div>
-                                )
-                            })
+                        {
+                            post.comments
+                                ? post.comments.map((comment, index) =>{ 
+                                    return (
+                                        <div key={index} id={comment._id}>
+                                            <h4>{comment.authorName}</h4>
+                                            <p>{comment.commentBody}</p>
+                                        </div>
+                                    )
+                                })
+                                : null
                         }
+
                     </div>
                     {
                         post.postedBy == user._id ?
                         <div className="mt-3 d-flex justify-content-between flex-column">
                             <Link to={`/edit/${post._id}`}><button type="button" className="btn btn-primary">Edit</button></Link>
-                            <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
+                            <button type="button" onClick={showNewCommentField} className="btn btn-primary">Comment</button>
+                            {
+                                showNewComment
+                                ? <NewComment postID={post._id} userID={user} showNewCommentFieldProp={showNewCommentField} />
+                                : null
+                            }
+                            
                         </div>
                         :
                         <div className="mt-3 d-flex justify-content-between flex-column">
                             <Link to={`/view/${post._id}`}><button type="button" className="btn btn-primary">View</button></Link>
-                            <Link to={""}><button type="button" className="btn btn-primary">Comment</button></Link>
+                            <button type="button" onClick={showNewCommentField} className="btn btn-primary">Comment</button>
+                            {
+                                showNewComment
+                                ? <NewComment postID={post._id} userID={user}showNewCommentFieldProp={showNewCommentField} />
+                                : null
+                            }
                         </div>
                     }
                 </div>
