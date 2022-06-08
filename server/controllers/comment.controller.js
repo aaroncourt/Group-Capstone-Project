@@ -8,14 +8,16 @@ module.exports = {
         const commentByUser = req.jwtpayload.id
         const commentOnPost = req.params.id
         let cm = {
-            commentBody: req.body,
+            commentBody: req.body.comment,
             commentByUser: commentByUser,
             commentOnPost: commentOnPost
         }
 
         Comment.create(cm)
             .then(newComment => {res.json(newComment)})
-            .catch(err => {res.status(400).json(err)})
+            .catch(err => {
+                console.log(err)
+                res.status(400).json(err)})
     },    
 
     getAllCommentsByPostId: (req, res) => {
@@ -38,26 +40,6 @@ module.exports = {
             });
     },
 
-    // updateComment: (req, res) => {
-    //     Comment.findOneAndUpdate( {_id: req.params.id}, req.body, {runValidators: true, new: true})
-    //         .then(updatedComment => {
-    //             res.json(updatedComment)
-    //         })
-    //         .catch(err => {res.status(400).json(err)
-    //             console.log(err)
-    //         })
-    // },
-
-    // deleteComment: (req, res) => {
-    //     Comment.deleteOne( {_id: req.params.id} )
-    //         .then(deleteConfirmation => {
-    //             res.json(deleteConfirmation)
-    //         })
-    //         .catch(err => {
-    //             res.json({message: 'Something went wrong: ', error: err})
-    //         });
-    // },
-
     updateComment: async (req,res) => {
         try{
         const getCreaterId = await Comment.find({_id: req.params.id})
@@ -72,7 +54,6 @@ module.exports = {
                 commentByUser:req.jwtpayload.id,
                 commentOnPost:req.params.id
             }
-            console.log(commentBody,'body')
 
             const commentUpdate = await Comment.findOneAndUpdate({_id: req.params.id}, commentBody, {runValidators: true, new: true})
             console.log(commentUpdate)
